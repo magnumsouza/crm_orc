@@ -1,0 +1,4 @@
+/vendor/
+/public_html/vendor/
+/public_html/pdf/*.pdf
+/public_html/.env
