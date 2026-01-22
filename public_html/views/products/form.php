@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/../partials/header.php'; ?>
 <div class="mb-6">
     <h1 class="text-2xl font-semibold"><?php echo empty($product['id']) ? 'Novo Produto' : 'Editar Produto'; ?></h1>
-    <p class="text-sm text-slate-500">Informe nome, descricao e preco.</p>
+    <p class="text-sm text-slate-500">Informe nome, descriçao e preço.</p>
 </div>
 
 <?php if (!empty($flash)): ?>

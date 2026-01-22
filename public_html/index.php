@@ -5,14 +5,20 @@ require_once __DIR__ . '/controllers/DashboardController.php';
 require_once __DIR__ . '/controllers/ClientsController.php';
 require_once __DIR__ . '/controllers/ProductsController.php';
 require_once __DIR__ . '/controllers/QuotesController.php';
+require_once __DIR__ . '/controllers/InventoryController.php';
 
-$action = $_GET['action'] ?? '';
+$action = $_POST['action'] ?? $_GET['action'] ?? '';
 
 if ($action === 'login') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         handle_login();
     }
     show_login();
+    exit;
+}
+
+if ($action === 'google_callback') {
+    handle_google_callback();
     exit;
 }
 
@@ -79,6 +85,27 @@ switch ($action) {
         break;
     case 'quotes_pdf':
         quotes_generate_pdf();
+        break;
+    case 'inventory':
+        inventory_index();
+        break;
+    case 'inventory_create':
+        inventory_create();
+        break;
+    case 'inventory_store':
+        inventory_store();
+        break;
+    case 'inventory_view':
+        inventory_view();
+        break;
+    case 'inventory_edit':
+        inventory_edit();
+        break;
+    case 'inventory_update':
+        inventory_update();
+        break;
+    case 'inventory_delete':
+        inventory_delete();
         break;
     default:
         show_dashboard();
