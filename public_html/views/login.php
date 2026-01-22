@@ -62,14 +62,16 @@
                 </div>
             </div>
 
-            <a href="<?php echo htmlspecialchars($google_login_url); ?>" class="mt-6 w-full flex items-center justify-center rounded-lg border border-slate-200 px-4 py-2 text-slate-700 font-medium hover:bg-slate-50 transition">
-                <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                Google
+            <a href="<?php echo htmlspecialchars($google_login_url); ?>" class="mt-6 w-full flex items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-slate-700 font-medium shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2">
+                <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-inner ring-1 ring-slate-200">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24">
+                        <path fill="#EA4335" d="M12 11.999v3.69h5.207c-.211 1.273-1.5 3.734-5.207 3.734-3.141 0-5.709-2.599-5.709-5.79 0-3.19 2.568-5.789 5.709-5.789 1.787 0 2.985.78 3.675 1.457l2.512-2.438C16.565 5.33 14.47 4.25 12 4.25c-4.391 0-7.958 3.605-7.958 8.043 0 4.438 3.567 8.043 7.958 8.043 4.603 0 7.647-3.304 7.647-7.956 0-.536-.057-.944-.126-1.38H12z"/>
+                        <path fill="#34A853" d="M5.173 9.612l2.998 2.23a3.527 3.527 0 0 1 3.3-2.422c.828 0 1.587.29 2.19.772l2.4-2.438A7.77 7.77 0 0 0 11.47 6.25c-2.836 0-5.277 1.66-6.297 3.362z"/>
+                        <path fill="#FBBC05" d="M5.173 14.386c.917 1.776 2.951 3.392 6.297 3.392 1.942 0 3.571-.636 4.761-1.736l-2.327-1.782c-.626.424-1.457.681-2.434.681-1.8 0-3.33-1.21-3.875-2.898l-2.422 1.343z"/>
+                        <path fill="#4285F4" d="M19.521 12.999c.07-.43.109-.877.109-1.35 0-.392-.046-.773-.126-1.15H12v2.5h4.453c-.204.665-.617 1.23-1.2 1.662l.002-.001 2.327 1.781c1.34-1.27 1.94-2.898 1.94-4.443z"/>
+                    </svg>
+                </span>
+                <span>Continuar com Google</span>
             </a>
         </div>
     </div>
