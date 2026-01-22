@@ -4,7 +4,9 @@
         <h1 class="text-2xl font-semibold">Produtos e Servicos</h1>
         <p class="text-sm text-slate-500">Cadastre seus itens de venda.</p>
     </div>
-    <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=products_create'); ?>">Novo Produto</a>
+    <?php if (is_admin()): ?>
+        <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=products_create'); ?>">Novo Produto</a>
+    <?php endif; ?>
 </div>
 
 <?php if (!empty($flash)): ?>
@@ -30,8 +32,10 @@
                     <td class="px-4 py-3 text-slate-600"><?php echo htmlspecialchars($product['description']); ?></td>
                     <td class="px-4 py-3"><?php echo money_br($product['price']); ?></td>
                     <td class="px-4 py-3 space-x-3">
-                        <a class="text-brand-700 hover:text-brand-900" href="<?php echo base_url('index.php?action=products_edit&id=' . $product['id']); ?>">Editar</a>
-                        <a class="text-red-600 hover:text-red-800" href="<?php echo base_url('index.php?action=products_delete&id=' . $product['id']); ?>" onclick="return confirm('Excluir produto?')">Excluir</a>
+                        <?php if (is_admin()): ?>
+                            <a class="text-brand-700 hover:text-brand-900" href="<?php echo base_url('index.php?action=products_edit&id=' . $product['id']); ?>">Editar</a>
+                            <a class="text-red-600 hover:text-red-800" href="<?php echo base_url('index.php?action=products_delete&id=' . $product['id']); ?>" onclick="return confirm('Excluir produto?')">Excluir</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

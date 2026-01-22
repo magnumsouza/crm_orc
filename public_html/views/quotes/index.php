@@ -4,7 +4,9 @@
         <h1 class="text-2xl font-semibold">Orcamentos</h1>
         <p class="text-sm text-slate-500">Acompanhe propostas enviadas e aprovadas.</p>
     </div>
-    <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
+    <?php if (is_admin()): ?>
+        <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
+    <?php endif; ?>
 </div>
 
 <?php if (!empty($flash)): ?>

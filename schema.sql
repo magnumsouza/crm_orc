@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) UNIQUE,
     username VARCHAR(80) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'viewer') NOT NULL DEFAULT 'viewer',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -70,5 +71,5 @@ CREATE TABLE IF NOT EXISTS inventory (
     INDEX idx_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT IGNORE INTO users (name, username, password) VALUES
-('Administrador', 'admin', '$2y$10$W4p1g/sNc7tHmkNMuSz4rOgvvmM4Rc9FYWGj0R5e8weoKCaC4vLAu');
+INSERT IGNORE INTO users (name, username, password, role) VALUES
+('Administrador', 'admin', '$2y$10$W4p1g/sNc7tHmkNMuSz4rOgvvmM4Rc9FYWGj0R5e8weoKCaC4vLAu', 'admin');

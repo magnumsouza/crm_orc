@@ -56,6 +56,7 @@
         </header>
         <div id="mobileMenuOverlay" class="fixed inset-0 z-20 hidden bg-slate-900/30 md:hidden"></div>
         <div id="mobileMenu" class="fixed inset-y-0 left-0 z-30 hidden w-72 translate-x-[-100%] border-r border-slate-200 bg-white px-4 py-6 shadow-lg transition-transform duration-200 md:hidden">
+            <?php $is_admin = is_admin(); ?>
             <div class="mb-6 flex items-center justify-between">
                 <div class="text-sm text-slate-600"><?php echo htmlspecialchars($_SESSION['user_name'] ?? ''); ?></div>
                 <a class="text-brand-700 hover:text-brand-900" href="<?php echo base_url('index.php?action=logout'); ?>">Sair</a>
@@ -65,10 +66,14 @@
                 <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=clients'); ?>">Clientes</a>
                 <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=products'); ?>">Produtos</a>
                 <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes'); ?>">Orcamentos</a>
-                <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
+                <?php if ($is_admin): ?>
+                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
+                <?php endif; ?>
                 <hr class="my-3 border-slate-200">
                 <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory'); ?>">Estoque</a>
-                <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory_create'); ?>">Novo Produto</a>
+                <?php if ($is_admin): ?>
+                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory_create'); ?>">Novo Produto</a>
+                <?php endif; ?>
             </nav>
         </div>
         <div class="flex pt-20">
@@ -78,10 +83,14 @@
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=clients'); ?>">Clientes</a>
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=products'); ?>">Produtos</a>
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes'); ?>">Orcamentos</a>
-                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
+                    <?php if ($is_admin): ?>
+                        <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
+                    <?php endif; ?>
                     <hr class="my-3 border-slate-200">
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory'); ?>">Estoque</a>
-                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory_create'); ?>">Novo Produto</a>
+                    <?php if ($is_admin): ?>
+                        <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory_create'); ?>">Novo Produto</a>
+                    <?php endif; ?>
                 </nav>
             </aside>
             <main class="flex-1 px-4 py-6 md:px-8 md:py-8">

@@ -56,6 +56,16 @@ function is_logged_in(): bool
     return !empty($_SESSION['user_id']);
 }
 
+function current_user_role(): string
+{
+    return $_SESSION['user_role'] ?? 'viewer';
+}
+
+function is_admin(): bool
+{
+    return current_user_role() === 'admin';
+}
+
 function require_login(): void
 {
     if (!is_logged_in()) {

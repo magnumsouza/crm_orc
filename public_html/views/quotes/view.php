@@ -56,15 +56,17 @@
             <p class="text-xs uppercase text-slate-500">Status atual</p>
             <p class="mt-2 text-lg font-semibold"><?php echo htmlspecialchars($quote['status']); ?></p>
         </div>
-        <form method="post" action="<?php echo base_url('index.php?action=quotes_update_status'); ?>" class="space-y-3">
-            <input type="hidden" name="id" value="<?php echo $quote['id']; ?>">
-            <select name="status" class="w-full rounded-lg border border-slate-200 px-4 py-2">
-                <option value="Enviado" <?php echo $quote['status'] === 'Enviado' ? 'selected' : ''; ?>>Enviado</option>
-                <option value="Aprovado" <?php echo $quote['status'] === 'Aprovado' ? 'selected' : ''; ?>>Aprovado</option>
-                <option value="Recusado" <?php echo $quote['status'] === 'Recusado' ? 'selected' : ''; ?>>Recusado</option>
-            </select>
-            <button class="w-full rounded-lg border border-slate-200 px-4 py-2">Atualizar</button>
-        </form>
+        <?php if (is_admin()): ?>
+            <form method="post" action="<?php echo base_url('index.php?action=quotes_update_status'); ?>" class="space-y-3">
+                <input type="hidden" name="id" value="<?php echo $quote['id']; ?>">
+                <select name="status" class="w-full rounded-lg border border-slate-200 px-4 py-2">
+                    <option value="Enviado" <?php echo $quote['status'] === 'Enviado' ? 'selected' : ''; ?>>Enviado</option>
+                    <option value="Aprovado" <?php echo $quote['status'] === 'Aprovado' ? 'selected' : ''; ?>>Aprovado</option>
+                    <option value="Recusado" <?php echo $quote['status'] === 'Recusado' ? 'selected' : ''; ?>>Recusado</option>
+                </select>
+                <button class="w-full rounded-lg border border-slate-200 px-4 py-2">Atualizar</button>
+            </form>
+        <?php endif; ?>
 
         <a class="w-full inline-flex justify-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=quotes_pdf&id=' . $quote['id']); ?>">Gerar PDF</a>
 

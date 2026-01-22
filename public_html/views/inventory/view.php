@@ -89,9 +89,11 @@
 <?php endif; ?>
 
 <div class="flex gap-3">
-    <a href="<?php echo base_url('index.php?action=inventory_edit&id=' . $item['id']); ?>" class="px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700">
-        Editar
-    </a>
+    <?php if (is_admin()): ?>
+        <a href="<?php echo base_url('index.php?action=inventory_edit&id=' . $item['id']); ?>" class="px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700">
+            Editar
+        </a>
+    <?php endif; ?>
     <a href="<?php echo base_url('index.php?action=inventory'); ?>" class="px-6 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300">
         Voltar
     </a>

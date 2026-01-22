@@ -28,6 +28,32 @@ if ($action === 'logout') {
 
 require_login();
 
+$restricted_actions = [
+    'clients_create',
+    'clients_store',
+    'clients_edit',
+    'clients_update',
+    'clients_delete',
+    'products_create',
+    'products_store',
+    'products_edit',
+    'products_update',
+    'products_delete',
+    'quotes_create',
+    'quotes_store',
+    'quotes_update_status',
+    'inventory_create',
+    'inventory_store',
+    'inventory_edit',
+    'inventory_update',
+    'inventory_delete',
+];
+
+if (!is_admin() && in_array($action, $restricted_actions, true)) {
+    flash_set('error', 'Acesso restrito: apenas administradores podem alterar dados.');
+    redirect('index.php');
+}
+
 switch ($action) {
     case 'clients':
         clients_index();

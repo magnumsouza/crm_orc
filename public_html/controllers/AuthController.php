@@ -24,6 +24,11 @@ function handle_login(): void
 
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['user_name'] = $user['name'];
+    $role = $user['role'] ?? '';
+    if ($role === '' && ($user['username'] ?? '') === 'admin') {
+        $role = 'admin';
+    }
+    $_SESSION['user_role'] = $role !== '' ? $role : 'viewer';
     flash_set('success', 'Bem-vindo!');
     redirect('index.php');
 }
@@ -87,6 +92,7 @@ function handle_google_callback(): void
     
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['user_name'] = $user['name'];
+    $_SESSION['user_role'] = $user['role'] ?? 'viewer';
     $_SESSION['google_auth'] = true;
     flash_set('success', 'Bem-vindo ' . htmlspecialchars($user['name']) . '!');
     redirect('index.php');
@@ -149,7 +155,7 @@ function get_google_user_info(string $access_token): ?array
 function authenticate_google_user(PDO $pdo, array $user_info): ?array
 {
     // Procurar usuário por email
-    $stmt = $pdo->prepare('SELECT id, name, email FROM users WHERE email = ?');
+    $stmt = $pdo->prepare('SELECT id, name, email, role FROM users WHERE email = ?');
     $stmt->execute([$user_info['email']]);
     $user = $stmt->fetch();
     
@@ -162,14 +168,15 @@ function authenticate_google_user(PDO $pdo, array $user_info): ?array
     
     // Criar novo usuário
     $name = $user_info['name'] ?? explode('@', $user_info['email'])[0];
-    $insert = $pdo->prepare('INSERT INTO users (email, name, created_at) VALUES (?, ?, NOW())');
+    $insert = $pdo->prepare('INSERT INTO users (email, name, role, created_at) VALUES (?, ?, ?, NOW())');
     
-    if ($insert->execute([$user_info['email'], $name])) {
+    if ($insert->execute([$user_info['email'], $name, 'viewer'])) {
         $id = (int)$pdo->lastInsertId();
         return [
             'id' => $id,
             'email' => $user_info['email'],
             'name' => $name,
+            'role' => 'viewer',
         ];
     }
     
