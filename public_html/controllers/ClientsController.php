@@ -5,6 +5,7 @@ function clients_index(): void
 {
     $search = trim($_GET['search'] ?? '');
     $clients = client_all(db(), $search);
+    $client = ['name' => '', 'email' => '', 'phone' => '', 'company' => '', 'notes' => ''];
     $flash = flash_get();
     include __DIR__ . '/../views/clients/index.php';
 }

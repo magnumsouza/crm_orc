@@ -4,6 +4,7 @@ require_once __DIR__ . '/../models/Product.php';
 function products_index(): void
 {
     $products = product_all(db());
+    $product = ['name' => '', 'description' => '', 'price' => ''];
     $flash = flash_get();
     include __DIR__ . '/../views/products/index.php';
 }

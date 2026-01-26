@@ -114,7 +114,7 @@
             <div class="md:col-span-5 min-w-0">
                 <select class="product-select w-full rounded-lg border border-slate-200 px-4 py-2" required>
                     <option value="">Produto/Servico</option>
-                    <?php foreach ($products as $product): ?>
+                    <?php foreach ($inventory_items as $product): ?>
                         <option value="<?php echo $product['id']; ?>" data-price="<?php echo $product['price']; ?>">
                             <?php echo htmlspecialchars($product['name']); ?>
                         </option>
@@ -147,6 +147,10 @@
             const openModal = () => {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                modal.querySelector('form')?.reset();
+                if (window.quoteResetItems) {
+                    window.quoteResetItems();
+                }
             };
 
             const closeModal = () => {

@@ -6,9 +6,14 @@
         <p class="text-sm text-slate-500">Gerencie o inventário de produtos</p>
     </div>
     <?php if (is_admin()): ?>
-        <a href="<?php echo base_url('index.php?action=inventory_create'); ?>" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+        <button type="button" id="open-inventory-modal" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
             + Novo Produto
-        </a>
+        </button>
+        <noscript>
+            <a href="<?php echo base_url('index.php?action=inventory_create'); ?>" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                + Novo Produto
+            </a>
+        </noscript>
     <?php endif; ?>
 </div>
 
@@ -148,4 +153,143 @@
     </div>
 </div>
 
-<?php include __DIR__ . '/../partials/footer.php'; ?>
+
+<?php if (is_admin()): ?>
+    <div id="inventory-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-inventory-modal-close></div>
+        <div class="relative w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
+            <div class="flex items-start justify-between border-b border-slate-100 px-6 py-4">
+                <div>
+                    <h2 class="text-xl font-semibold">Novo Produto</h2>
+                    <p class="text-sm text-slate-500">Adicione um novo produto ao estoque.</p>
+                </div>
+                <button type="button" class="text-slate-500 hover:text-slate-700" data-inventory-modal-close>Fechar</button>
+            </div>
+
+            <form method="post" action="<?php echo base_url('index.php'); ?>" class="px-6 py-6 space-y-6" autocomplete="off">
+                <input type="hidden" name="action" value="inventory_store">
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label for="sku" class="block text-sm font-medium mb-2">SKU *</label>
+                        <input type="text" name="sku" id="sku" required value="<?php echo htmlspecialchars($item['sku']); ?>" class="w-full rounded-lg border border-slate-200 px-4 py-2" placeholder="Ex: SKU-001" autocomplete="off">
+                    </div>
+                    <div>
+                        <label for="name" class="block text-sm font-medium mb-2">Nome do Produto *</label>
+                        <input type="text" name="name" id="name" required value="<?php echo htmlspecialchars($item['name']); ?>" class="w-full rounded-lg border border-slate-200 px-4 py-2" autocomplete="off">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="category" class="block text-sm font-medium mb-2">Categoria</label>
+                    <input type="text" name="category" id="category" value="<?php echo htmlspecialchars($item['category']); ?>" class="w-full rounded-lg border border-slate-200 px-4 py-2" placeholder="Ex: Notebooks" autocomplete="off">
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-medium mb-2">Descrição</label>
+                    <textarea name="description" id="description" rows="3" class="w-full rounded-lg border border-slate-200 px-4 py-2"><?php echo htmlspecialchars($item['description']); ?></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label for="quantity" class="block text-sm font-medium mb-2">Quantidade em Estoque *</label>
+                        <input type="number" name="quantity" id="quantity" required value="<?php echo (int)$item['quantity']; ?>" class="w-full rounded-lg border border-slate-200 px-4 py-2" min="0">
+                    </div>
+                    <div>
+                        <label for="price" class="block text-sm font-medium mb-2">Preço de Venda *</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-2 text-slate-500">R$</span>
+                            <input type="number" name="price" id="price" required value="<?php echo (float)$item['price']; ?>" step="0.01" class="w-full rounded-lg border border-slate-200 px-4 py-2 pl-10" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label for="cost" class="block text-sm font-medium mb-2">Custo Unitário *</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-2 text-slate-500">R$</span>
+                            <input type="number" name="cost" id="cost" required value="<?php echo (float)$item['cost']; ?>" step="0.01" class="w-full rounded-lg border border-slate-200 px-4 py-2 pl-10" min="0">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Margem de Lucro</label>
+                        <div class="rounded-lg border border-slate-200 px-4 py-2 bg-slate-50 text-slate-600">
+                            <span id="margin">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label for="min_quantity" class="block text-sm font-medium mb-2">Quantidade Mínima</label>
+                        <input type="number" name="min_quantity" id="min_quantity" value="<?php echo (int)$item['min_quantity']; ?>" class="w-full rounded-lg border border-slate-200 px-4 py-2" min="0">
+                    </div>
+                    <div>
+                        <label for="max_quantity" class="block text-sm font-medium mb-2">Quantidade Máxima</label>
+                        <input type="number" name="max_quantity" id="max_quantity" value="<?php echo (int)$item['max_quantity']; ?>" class="w-full rounded-lg border border-slate-200 px-4 py-2" min="0">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-3 justify-end pt-2">
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                        Adicionar ao Estoque
+                    </button>
+                    <button type="button" class="px-6 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300" data-inventory-modal-close>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const modal = document.getElementById('inventory-modal');
+            const openBtn = document.getElementById('open-inventory-modal');
+            const closeButtons = modal ? modal.querySelectorAll('[data-inventory-modal-close]') : [];
+            const priceInput = document.getElementById('price');
+            const costInput = document.getElementById('cost');
+            const marginEl = document.getElementById('margin');
+
+            if (!modal || !openBtn) {
+                return;
+            }
+
+            const openModal = () => {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                modal.querySelector('form')?.reset();
+                calculateMargin();
+            };
+
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            };
+
+            const calculateMargin = () => {
+                const price = parseFloat(priceInput?.value || '0') || 0;
+                const cost = parseFloat(costInput?.value || '0') || 0;
+                const margin = price - cost;
+                const percent = cost > 0 ? ((margin / cost) * 100).toFixed(1) : 0;
+                if (marginEl) {
+                    marginEl.textContent = 'R$ ' + margin.toFixed(2).replace('.', ',') + ' (' + percent + '%)';
+                }
+            };
+
+            openBtn.addEventListener('click', openModal);
+            closeButtons.forEach((btn) => btn.addEventListener('click', closeModal));
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            });
+
+            priceInput?.addEventListener('change', calculateMargin);
+            costInput?.addEventListener('change', calculateMargin);
+        })();
+    </script>
+<?php endif; ?><?php include __DIR__ . '/../partials/footer.php'; ?>
+
+

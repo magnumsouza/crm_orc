@@ -1,16 +1,16 @@
 <?php
 require_once __DIR__ . '/../models/Quote.php';
 require_once __DIR__ . '/../models/Client.php';
-require_once __DIR__ . '/../models/Product.php';
+require_once __DIR__ . '/../models/Inventory.php';
 
 function quotes_index(): void
 {
     $quotes = quote_all(db());
     $clients = [];
-    $products = [];
+    $inventory_items = [];
     if (is_admin()) {
         $clients = client_all(db());
-        $products = product_all(db());
+        $inventory_items = inventory_all(db());
     }
     $flash = flash_get();
     include __DIR__ . '/../views/quotes/index.php';
@@ -19,7 +19,7 @@ function quotes_index(): void
 function quotes_create(): void
 {
     $clients = client_all(db());
-    $products = product_all(db());
+    $inventory_items = inventory_all(db());
     $flash = flash_get();
     include __DIR__ . '/../views/quotes/form.php';
 }
@@ -40,20 +40,20 @@ function quotes_store(): void
     $parsed_items = [];
 
     foreach ($items as $item) {
-        $product_id = (int)($item['product_id'] ?? 0);
+        $inventory_id = (int)($item['inventory_id'] ?? 0);
         $quantity = (int)($item['quantity'] ?? 0);
-        if ($product_id <= 0 || $quantity <= 0) {
+        if ($inventory_id <= 0 || $quantity <= 0) {
             continue;
         }
-        $product = product_find($pdo, $product_id);
-        if (!$product) {
+        $product = inventory_find($pdo, $inventory_id);
+        if (!$product || ($product['status'] ?? '') === 'Inativo') {
             continue;
         }
         $unit = (float)$product['price'];
         $line_total = $unit * $quantity;
         $total += $line_total;
         $parsed_items[] = [
-            'product_id' => $product_id,
+            'inventory_id' => $inventory_id,
             'quantity' => $quantity,
             'unit_price' => $unit,
             'total_price' => $line_total,

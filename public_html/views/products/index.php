@@ -5,7 +5,10 @@
         <p class="text-sm text-slate-500">Cadastre seus itens de venda.</p>
     </div>
     <?php if (is_admin()): ?>
-        <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=products_create'); ?>">Novo Produto</a>
+        <button type="button" id="open-product-modal" class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700">Novo Produto</button>
+        <noscript>
+            <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=products_create'); ?>">Novo Produto</a>
+        </noscript>
     <?php endif; ?>
 </div>
 
@@ -47,4 +50,73 @@
         </tbody>
     </table>
 </div>
+
+<?php if (is_admin()): ?>
+    <div id="product-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-product-modal-close></div>
+        <div class="relative w-full max-w-2xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
+            <div class="flex items-start justify-between border-b border-slate-100 px-6 py-4">
+                <div>
+                    <h2 class="text-xl font-semibold">Novo Produto</h2>
+                    <p class="text-sm text-slate-500">Informe nome, descriÃ§ao e preÃ§o.</p>
+                </div>
+                <button type="button" class="text-slate-500 hover:text-slate-700" data-product-modal-close>Fechar</button>
+            </div>
+
+            <form class="space-y-6 px-6 py-6" method="post" action="<?php echo base_url('index.php?action=products_store'); ?>">
+                <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200 space-y-4">
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="text-xs uppercase tracking-wide text-slate-500">Nome</label>
+                            <input name="name" value="<?php echo htmlspecialchars($product['name']); ?>" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2" required>
+                        </div>
+                        <div>
+                            <label class="text-xs uppercase tracking-wide text-slate-500">Preco unitario</label>
+                            <input name="price" value="<?php echo htmlspecialchars($product['price']); ?>" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-xs uppercase tracking-wide text-slate-500">Descricao</label>
+                        <textarea name="description" rows="4" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2"><?php echo htmlspecialchars($product['description']); ?></textarea>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-3 justify-end">
+                    <button class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-brand-600/30 transition hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2">Salvar Produto</button>
+                    <button type="button" class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2" data-product-modal-close>Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const modal = document.getElementById('product-modal');
+            const openBtn = document.getElementById('open-product-modal');
+            const closeButtons = modal ? modal.querySelectorAll('[data-product-modal-close]') : [];
+
+            if (!modal || !openBtn) {
+                return;
+            }
+
+            const openModal = () => {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            };
+
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            };
+
+            openBtn.addEventListener('click', openModal);
+            closeButtons.forEach((btn) => btn.addEventListener('click', closeModal));
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        })();
+    </script>
+<?php endif; ?>
 <?php include __DIR__ . '/../partials/footer.php'; ?>

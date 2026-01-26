@@ -7,6 +7,17 @@ function inventory_index(): void
     $items = inventory_all(db(), $search);
     $stats = inventory_stats(db());
     $low_stock = inventory_low_stock(db());
+    $item = [
+        'sku' => '',
+        'name' => '',
+        'category' => '',
+        'description' => '',
+        'quantity' => 0,
+        'price' => 0,
+        'cost' => 0,
+        'min_quantity' => 5,
+        'max_quantity' => 100,
+    ];
     $flash = flash_get();
     include __DIR__ . '/../views/inventory/index.php';
 }

@@ -56,8 +56,8 @@
             <?php foreach ($items as $item): ?>
                 <tr>
                     <td>
-                        <strong><?php echo htmlspecialchars($item['product_name']); ?></strong><br>
-                        <span class="muted"><?php echo htmlspecialchars($item['product_description']); ?></span>
+                        <strong><?php echo htmlspecialchars($item['item_name']); ?></strong><br>
+                        <span class="muted"><?php echo htmlspecialchars($item['item_description']); ?></span>
                     </td>
                     <td><?php echo $item['quantity']; ?></td>
                     <td><?php echo money_br($item['unit_price']); ?></td>

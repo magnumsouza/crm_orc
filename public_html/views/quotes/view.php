@@ -34,7 +34,7 @@
                 <tbody>
                     <?php foreach ($items as $item): ?>
                         <tr class="border-t border-slate-100">
-                            <td class="px-4 py-3 font-medium"><?php echo htmlspecialchars($item['product_name']); ?></td>
+                            <td class="px-4 py-3 font-medium"><?php echo htmlspecialchars($item['item_name']); ?></td>
                             <td class="px-4 py-3"><?php echo $item['quantity']; ?></td>
                             <td class="px-4 py-3"><?php echo money_br($item['unit_price']); ?></td>
                             <td class="px-4 py-3"><?php echo money_br($item['total_price']); ?></td>

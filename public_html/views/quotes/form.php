@@ -50,7 +50,7 @@
         <div class="md:col-span-6">
             <select class="product-select w-full rounded-lg border border-slate-200 px-4 py-2" required>
                 <option value="">Produto/Servico</option>
-                <?php foreach ($products as $product): ?>
+                <?php foreach ($inventory_items as $product): ?>
                     <option value="<?php echo $product['id']; ?>" data-price="<?php echo $product['price']; ?>">
                         <?php echo htmlspecialchars($product['name']); ?>
                     </option>
@@ -71,6 +71,6 @@
 
 <script src="<?php echo base_url('assets/js/quote.js'); ?>"></script>
 <script>
-    window.quoteProducts = <?php echo json_encode($products); ?>;
+    window.quoteProducts = <?php echo json_encode($inventory_items); ?>;
 </script>
 <?php include __DIR__ . '/../partials/footer.php'; ?>

@@ -58,7 +58,7 @@
         container.querySelectorAll('.item-row').forEach((row, index) => {
             const select = row.querySelector('.product-select');
             const qty = row.querySelector('.qty-input');
-            select.name = `items[${index}][product_id]`;
+            select.name = `items[${index}][inventory_id]`;
             qty.name = `items[${index}][quantity]`;
         });
     };
@@ -66,4 +66,10 @@
     addButton.addEventListener('click', addItem);
 
     addItem();
+
+    // Expose a reset hook for modal reuse
+    window.quoteResetItems = () => {
+        container.innerHTML = '';
+        addItem();
+    };
 })();
