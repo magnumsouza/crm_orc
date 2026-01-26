@@ -6,6 +6,12 @@ require_once __DIR__ . '/../models/Product.php';
 function quotes_index(): void
 {
     $quotes = quote_all(db());
+    $clients = [];
+    $products = [];
+    if (is_admin()) {
+        $clients = client_all(db());
+        $products = product_all(db());
+    }
     $flash = flash_get();
     include __DIR__ . '/../views/quotes/index.php';
 }
