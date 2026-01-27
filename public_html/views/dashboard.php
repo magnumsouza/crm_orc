@@ -88,7 +88,6 @@
 
 
 
-
 <?php if (is_admin()): ?>
     <div id="quote-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-quote-modal-close></div>
@@ -197,7 +196,3 @@
         })();
     </script>
 <?php endif; ?><?php include __DIR__ . '/partials/footer.php'; ?>
-
-
-
-

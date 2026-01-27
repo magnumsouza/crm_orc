@@ -144,21 +144,16 @@
             <aside class="hidden w-64 min-h-screen border-r border-slate-200 bg-white/70 px-4 py-6 md:block">
                 <nav class="space-y-2 text-sm">
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php'); ?>">Dashboard</a>
-                    
-                    <!-- <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory_creqate'); ?>">Produtos</a> -->
+                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=clients'); ?>">Clientes</a>
+                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=products'); ?>">Produtos</a>
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes'); ?>">Orçamentos</a>
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=schedules'); ?>">Agendamentos</a>
-                <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=invoices'); ?>">Notas Fiscais</a>
-                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory'); ?>">Estoque</a>
-                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=clients'); ?>">Clientes</a>
+                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=invoices'); ?>">Notas Fiscais</a>
                     <?php if ($is_admin): ?>
-                        <!-- <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a> -->
+                        <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=schedules_create'); ?>">Novo Agendamento</a>
                     <?php endif; ?>
                     <hr class="my-3 border-slate-200">
-                    <!-- <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory'); ?>">Estoque</a> -->
-                    <?php if ($is_admin): ?>
-                        <!-- <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory_create'); ?>">Novo Produto</a> -->
-                    <?php endif; ?>
+                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=inventory'); ?>">Estoque</a>
                 </nav>
             </aside>
             <main class="flex-1 px-4 py-6 md:px-8 md:py-8">
@@ -183,4 +178,3 @@
                     if (toggleMobile) toggleMobile.addEventListener('click', handleToggle);
                 })();
             </script>
-
