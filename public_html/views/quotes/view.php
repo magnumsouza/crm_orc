@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/../partials/header.php'; ?>
 <div class="flex items-center justify-between mb-6">
     <div>
-        <h1 class="text-2xl font-semibold">Orcamento #<?php echo $quote['id']; ?></h1>
+        <h1 class="text-2xl font-semibold">Orçamento #<?php echo $quote['id']; ?></h1>
         <p class="text-sm text-slate-500">Cliente: <?php echo htmlspecialchars($quote['client_name']); ?></p>
     </div>
     <a class="rounded-lg border border-slate-200 px-4 py-2" href="<?php echo base_url('index.php?action=quotes'); ?>">Voltar</a>
