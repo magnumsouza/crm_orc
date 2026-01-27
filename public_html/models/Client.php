@@ -19,6 +19,12 @@ function client_find(PDO $pdo, int $id): ?array
     return $client ?: null;
 }
 
+function client_count(PDO $pdo): int
+{
+    $result = $pdo->query('SELECT COUNT(*) AS total FROM clients')->fetch();
+    return (int)($result['total'] ?? 0);
+}
+
 function client_create(PDO $pdo, array $data): int
 {
     $stmt = $pdo->prepare('INSERT INTO clients (name, email, phone, company, notes) VALUES (?, ?, ?, ?, ?)');
