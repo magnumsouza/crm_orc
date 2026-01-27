@@ -66,4 +66,10 @@
     addButton.addEventListener('click', addItem);
 
     addItem();
+
+    // Expose a reset hook for modal reuse
+    window.quoteResetItems = () => {
+        container.innerHTML = '';
+        addItem();
+    };
 })();

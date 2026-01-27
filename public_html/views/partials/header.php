@@ -65,7 +65,7 @@
                 <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php'); ?>">Dashboard</a>
                 <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=clients'); ?>">Clientes</a>
                 <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=products'); ?>">Produtos</a>
-                <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes'); ?>">Orcamentos</a>
+                <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes'); ?>">Orçamentos</a>
                 <?php if ($is_admin): ?>
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
                 <?php endif; ?>
@@ -80,9 +80,10 @@
             <aside class="hidden w-64 min-h-screen border-r border-slate-200 bg-white/70 px-4 py-6 md:block">
                 <nav class="space-y-2 text-sm">
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php'); ?>">Dashboard</a>
+                    
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=clients'); ?>">Clientes</a>
                     <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=products'); ?>">Produtos</a>
-                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes'); ?>">Orcamentos</a>
+                    <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes'); ?>">Orçamentos</a>
                     <?php if ($is_admin): ?>
                         <a class="block rounded-lg px-4 py-2 text-slate-700 hover:bg-brand-50" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
                     <?php endif; ?>
