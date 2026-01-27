@@ -47,7 +47,12 @@
                         <?php endif; ?>
                     </td>
                     <td class="px-4 py-3">
-                        <a class="text-brand-700 hover:text-brand-900" href="<?php echo base_url('index.php?action=quotes_view&id=' . $quote['id']); ?>">Ver</a>
+                        <a href="<?php echo base_url('index.php?action=quotes_view&id=' . $quote['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-blue-50 p-1.5 text-blue-700 hover:bg-blue-100 md:p-2" aria-label="Visualizar" title="Visualizar">
+                            <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </a>
                     </td>
                 </tr>
             <?php endforeach; ?>

@@ -42,14 +42,35 @@
                     <td class="px-4 py-3"><?php echo htmlspecialchars($client['email']); ?></td>
                     <td class="px-4 py-3"><?php echo htmlspecialchars($client['phone']); ?></td>
                     <td class="px-4 py-3"><?php echo htmlspecialchars($client['company']); ?></td>
-                    <td class="px-4 py-3 space-x-3">
-                        <?php if (is_admin()): ?>
-                            <a class="text-brand-700 hover:text-brand-900" href="<?php echo base_url('index.php?action=clients_edit&id=' . $client['id']); ?>">Editar</a>
-                        <?php endif; ?>
-                        <a class="text-slate-600 hover:text-slate-900" href="<?php echo base_url('index.php?action=clients_history&id=' . $client['id']); ?>">Historico</a>
-                        <?php if (is_admin()): ?>
-                            <a class="text-red-600 hover:text-red-800" href="<?php echo base_url('index.php?action=clients_delete&id=' . $client['id']); ?>" onclick="return confirm('Excluir cliente?')">Excluir</a>
-                        <?php endif; ?>
+                    <td class="px-4 py-3">
+                        <div class="flex flex-nowrap gap-3">
+                            <?php if (is_admin()): ?>
+                                <a href="<?php echo base_url('index.php?action=clients_edit&id=' . $client['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar">
+                                    <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 20h9"></path>
+                                        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                                    </svg>
+                                </a>
+                            <?php endif; ?>
+                            <a href="<?php echo base_url('index.php?action=clients_history&id=' . $client['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-blue-50 p-1.5 text-blue-700 hover:bg-blue-100 md:p-2" aria-label="Historico" title="Historico">
+                                <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 12a9 9 0 1 0 3-6.7"></path>
+                                    <path d="M3 4v4h4"></path>
+                                    <path d="M12 7v5l3 3"></path>
+                                </svg>
+                            </a>
+                            <?php if (is_admin()): ?>
+                                <a href="<?php echo base_url('index.php?action=clients_delete&id=' . $client['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-red-50 p-1.5 text-red-700 hover:bg-red-100 md:p-2" aria-label="Excluir" title="Excluir" onclick="return confirm('Excluir cliente?')">
+                                    <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 6h18"></path>
+                                        <path d="M8 6V4h8v2"></path>
+                                        <path d="M19 6l-1 14H6L5 6"></path>
+                                        <path d="M10 11v6"></path>
+                                        <path d="M14 11v6"></path>
+                                    </svg>
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
