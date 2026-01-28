@@ -8,6 +8,7 @@ require_once __DIR__ . '/controllers/InventoryController.php';
 require_once __DIR__ . '/controllers/ServicesController.php';
 require_once __DIR__ . '/controllers/SchedulesController.php';
 require_once __DIR__ . '/controllers/InvoicesController.php';
+require_once __DIR__ . '/controllers/CashboxController.php';
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
@@ -135,6 +136,15 @@ switch ($action) {
         break;
     case 'inventory_delete':
         inventory_delete();
+        break;
+    case 'cashbox':
+        cashbox_index();
+        break;
+    case 'cashbox_pdf':
+        cashbox_pdf();
+        break;
+    case 'cashbox_excel':
+        cashbox_excel();
         break;
     case 'services':
         services_index();

@@ -7,20 +7,38 @@
     
 <?php endif; ?>
 
-<div class="mt-8 flex items-center justify-between">
-    <div>
-        <h2 class="text-xl font-semibold">Comece um novo orçamento</h2>
-        <p class="text-sm text-slate-500">Crie propostas com ítens e envie rapidamente.</p>
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="card-surface rounded-2xl p-6">
+        <p class="text-xs uppercase text-slate-500">Estoque</p>
+        <p class="mt-3 text-3xl font-semibold text-slate-900"><?php echo $inventory_stats['total_items']; ?></p>
+        <p class="mt-2 text-sm text-slate-500">Itens cadastrados</p>
+        <p class="mt-3 text-lg font-semibold text-emerald-600"><?php echo money_br((float)$inventory_stats['total_value']); ?></p>
+        <p class="text-xs text-slate-500">Valor em estoque</p>
     </div>
-    <?php if (is_admin()): ?>
-        <button type="button" id="open-quote-modal" class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition">Novo Orçamento</button>
-        <noscript>
-            <a class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orçamento</a>
-        </noscript>
-<?php endif; ?>
-
+    <div class="card-surface rounded-2xl p-6">
+        <p class="text-xs uppercase text-slate-500">Serviços</p>
+        <p class="mt-3 text-3xl font-semibold text-slate-900"><?php echo $service_count; ?></p>
+        <p class="mt-2 text-sm text-slate-500">Serviços ativos</p>
+        <p class="mt-3 text-lg font-semibold text-emerald-600"><?php echo money_br($service_total); ?></p>
+        <p class="text-xs text-slate-500">Soma dos serviços</p>
+    </div>
+    <div class="card-surface rounded-2xl p-6">
+        <p class="text-xs uppercase text-slate-500">Futuros</p>
+        <p class="mt-3 text-3xl font-semibold text-slate-900"><?php echo $futuros; ?></p>
+        <p class="mt-2 text-sm text-slate-500">Orçamentos aprovados</p>
+        <p class="mt-3 text-lg font-semibold text-emerald-600"><?php echo money_br($futuros_total); ?></p>
+        <p class="text-xs text-slate-500">Total aprovado</p>
+    </div>
+    <div class="card-surface rounded-2xl p-6">
+        <p class="text-xs uppercase text-slate-500">Notas fiscais</p>
+        <p class="mt-3 text-3xl font-semibold text-slate-900"><?php echo $total_invoices; ?></p>
+        <p class="mt-2 text-sm text-slate-500">Emitidas</p>
+        <p class="mt-3 text-lg font-semibold text-emerald-600"><?php echo money_br($total_invoices_value); ?></p>
+        <p class="text-xs text-slate-500">Total emitido</p>
+    </div>
 </div>
-<br>
+
+<div class="mt-8"></div>
 
 <div class="grid gap-6 lg:grid-cols-3">
     <div class="card-surface rounded-2xl p-6">

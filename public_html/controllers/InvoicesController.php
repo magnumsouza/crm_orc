@@ -3,6 +3,7 @@ require_once __DIR__ . '/../models/Invoice.php';
 require_once __DIR__ . '/../models/Schedule.php';
 require_once __DIR__ . '/../models/Client.php';
 require_once __DIR__ . '/../models/Inventory.php';
+require_once __DIR__ . '/../models/Cashbox.php';
 
 function invoices_index(): void
 {
@@ -193,6 +194,39 @@ function invoices_store(): void
     }
 
     $pdo->prepare('UPDATE invoices SET total = ? WHERE id = ?')->execute([$invoice_total, $invoice_id]);
+
+    // Entradas e saidas no caixa
+    cashbox_add_entry($pdo, [
+        'type' => 'entrada',
+        'origin' => 'nota_fiscal',
+        'description' => 'Entrada NF #' . $invoice_id,
+        'quantity' => null,
+        'amount' => $invoice_total,
+        'reference_type' => 'invoice',
+        'reference_id' => $invoice_id,
+    ]);
+
+    if ($invoice_mode === 'cadastro') {
+        $items = schedule_items($pdo, $schedule_id);
+        foreach ($items as $item) {
+            $inventory = inventory_find($pdo, (int)$item['inventory_id']);
+            if (!$inventory) {
+                continue;
+            }
+            $cost = (float)$inventory['cost'];
+            $qty = (int)$item['quantity'];
+            $amount = $cost * $qty;
+            cashbox_add_entry($pdo, [
+                'type' => 'saida',
+                'origin' => 'estoque',
+                'description' => 'Saida estoque: ' . $inventory['name'],
+                'quantity' => $qty,
+                'amount' => $amount,
+                'reference_type' => 'inventory',
+                'reference_id' => (int)$inventory['id'],
+            ]);
+        }
+    }
 
     flash_set('success', 'Nota fiscal emitida.');
     redirect('index.php?action=invoices');

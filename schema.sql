@@ -146,5 +146,17 @@ CREATE TABLE IF NOT EXISTS invoice_items (
     FOREIGN KEY (product_id) REFERENCES inventory(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS cashbox_entries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type ENUM('entrada', 'saida') NOT NULL,
+    origin VARCHAR(30) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    quantity INT DEFAULT NULL,
+    amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    reference_type VARCHAR(30) DEFAULT NULL,
+    reference_id INT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 INSERT IGNORE INTO users (name, username, password, role) VALUES
 ('Administrador', 'admin', '$2y$10$W4p1g/sNc7tHmkNMuSz4rOgvvmM4Rc9FYWGj0R5e8weoKCaC4vLAu', 'admin');
