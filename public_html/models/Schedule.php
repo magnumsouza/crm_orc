@@ -67,11 +67,12 @@ function schedule_items(PDO $pdo, int $schedule_id): array
 function schedule_create(PDO $pdo, array $data): int
 {
     $stmt = $pdo->prepare("
-        INSERT INTO schedules (client_id, service_description, scheduled_date, scheduled_time, status, notes)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO schedules (client_id, quote_id, service_description, scheduled_date, scheduled_time, status, notes)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     ");
     $stmt->execute([
         $data['client_id'],
+        $data['quote_id'],
         $data['service_description'],
         $data['scheduled_date'],
         $data['scheduled_time'],
@@ -109,11 +110,12 @@ function schedule_update(PDO $pdo, int $id, array $data): void
 {
     $stmt = $pdo->prepare("
         UPDATE schedules
-        SET client_id = ?, service_description = ?, scheduled_date = ?, scheduled_time = ?, notes = ?, updated_at = NOW()
+        SET client_id = ?, quote_id = ?, service_description = ?, scheduled_date = ?, scheduled_time = ?, notes = ?, updated_at = NOW()
         WHERE id = ?
     ");
     $stmt->execute([
         $data['client_id'],
+        $data['quote_id'],
         $data['service_description'],
         $data['scheduled_date'],
         $data['scheduled_time'],

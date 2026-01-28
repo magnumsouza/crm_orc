@@ -26,6 +26,57 @@ function quote_find(PDO $pdo, int $id): ?array
     return $quote ?: null;
 }
 
+function quote_is_approved(PDO $pdo, int $id): bool
+{
+    $stmt = $pdo->prepare("SELECT COUNT(*) AS total FROM quotes WHERE id = ? AND status = 'Aprovado'");
+    $stmt->execute([$id]);
+    $total = $stmt->fetch()['total'] ?? 0;
+    return (int)$total > 0;
+}
+
+function quote_approved_with_items(PDO $pdo): array
+{
+    $stmt = $pdo->query("SELECT q.id, q.client_id, q.notes, q.total, c.name AS client_name FROM quotes q JOIN clients c ON c.id = q.client_id WHERE q.status = 'Aprovado' ORDER BY q.created_at DESC");
+    $quotes = $stmt->fetchAll();
+    if (empty($quotes)) {
+        return [];
+    }
+
+    $quote_map = [];
+    $ids = [];
+    foreach ($quotes as $quote) {
+        $quote['items'] = [];
+        $quote_map[$quote['id']] = $quote;
+        $ids[] = $quote['id'];
+    }
+
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
+    $item_stmt = $pdo->prepare("
+        SELECT qi.quote_id,
+               qi.inventory_id,
+               qi.service_id,
+               qi.item_type,
+               qi.description,
+               qi.quantity,
+               i.name AS product_name,
+               s.name AS service_name
+        FROM quote_items qi
+        LEFT JOIN inventory i ON i.id = qi.inventory_id
+        LEFT JOIN services s ON s.id = qi.service_id
+        WHERE qi.quote_id IN ($placeholders)
+    ");
+    $item_stmt->execute($ids);
+    $items = $item_stmt->fetchAll();
+    foreach ($items as $item) {
+        $quote_id = (int)$item['quote_id'];
+        if (isset($quote_map[$quote_id])) {
+            $quote_map[$quote_id]['items'][] = $item;
+        }
+    }
+
+    return array_values($quote_map);
+}
+
 function quote_items(PDO $pdo, int $quote_id): array
 {
     $stmt = $pdo->prepare('

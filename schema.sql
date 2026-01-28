@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS inventory (
 CREATE TABLE IF NOT EXISTS schedules (
     id INT AUTO_INCREMENT PRIMARY KEY,
     client_id INT NOT NULL,
+    quote_id INT NULL,
     service_description TEXT NOT NULL,
     scheduled_date DATE NOT NULL,
     scheduled_time TIME NOT NULL,
@@ -89,6 +90,7 @@ CREATE TABLE IF NOT EXISTS schedules (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
+    FOREIGN KEY (quote_id) REFERENCES quotes(id) ON DELETE SET NULL,
     INDEX idx_schedule_date (scheduled_date),
     INDEX idx_schedule_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

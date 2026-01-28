@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../models/Schedule.php';
 require_once __DIR__ . '/../models/Client.php';
 require_once __DIR__ . '/../models/Inventory.php';
+require_once __DIR__ . '/../models/Quote.php';
 require_once __DIR__ . '/../services/WhatsAppService.php';
 
 function schedules_bootstrap_whatsapp(): void
@@ -25,10 +26,12 @@ function schedules_index(): void
     $clients = [];
     $inventory = [];
     $settings = [];
+    $approved_quotes = [];
     if (is_admin()) {
         $clients = client_all(db());
         $inventory = inventory_all(db());
         $settings = schedule_get_settings(db());
+        $approved_quotes = quote_approved_with_items(db());
     }
     $flash = flash_get();
     include __DIR__ . '/../views/schedules/index.php';
@@ -39,6 +42,7 @@ function schedules_create(): void
     $clients = client_all(db());
     $inventory = inventory_all(db());
     $settings = schedule_get_settings(db());
+    $approved_quotes = quote_approved_with_items(db());
     $flash = flash_get();
     $schedule = null;
     $items = [];
@@ -49,11 +53,28 @@ function schedules_store(): void
 {
     $pdo = db();
     $client_id = (int)($_POST['client_id'] ?? 0);
+    $quote_id = (int)($_POST['quote_id'] ?? 0);
     $service_description = trim($_POST['service_description'] ?? '');
     $scheduled_date = trim($_POST['scheduled_date'] ?? '');
     $scheduled_time = schedule_normalize_time(trim($_POST['scheduled_time'] ?? ''));
     $notes = trim($_POST['notes'] ?? '');
     $items = $_POST['items'] ?? [];
+
+    if ($quote_id > 0 && !quote_is_approved($pdo, $quote_id)) {
+        $quote_id = 0;
+    }
+    if ($quote_id > 0) {
+        $quote = quote_find($pdo, $quote_id);
+        if ($quote) {
+            $client_id = (int)$quote['client_id'];
+            if ($service_description === '') {
+                $service_description = 'Orcamento #' . $quote_id;
+            }
+            if (empty($items)) {
+                $items = schedule_items_from_quote(quote_items($pdo, $quote_id));
+            }
+        }
+    }
 
     if ($client_id <= 0 || $service_description === '' || $scheduled_date === '' || $scheduled_time === '') {
         flash_set('error', 'Preencha cliente, servico, data e horario.');
@@ -79,6 +100,7 @@ function schedules_store(): void
 
     $schedule_id = schedule_create($pdo, [
         'client_id' => $client_id,
+        'quote_id' => $quote_id ?: null,
         'service_description' => $service_description,
         'scheduled_date' => $scheduled_date,
         'scheduled_time' => $scheduled_time,
@@ -132,6 +154,7 @@ function schedules_edit(): void
     $clients = client_all(db());
     $inventory = inventory_all(db());
     $settings = schedule_get_settings(db());
+    $approved_quotes = quote_approved_with_items(db());
     $items = schedule_items(db(), $id);
     $flash = flash_get();
     include __DIR__ . '/../views/schedules/form.php';
@@ -152,11 +175,28 @@ function schedules_update(): void
     }
 
     $client_id = (int)($_POST['client_id'] ?? 0);
+    $quote_id = (int)($_POST['quote_id'] ?? 0);
     $service_description = trim($_POST['service_description'] ?? '');
     $scheduled_date = trim($_POST['scheduled_date'] ?? '');
     $scheduled_time = schedule_normalize_time(trim($_POST['scheduled_time'] ?? ''));
     $notes = trim($_POST['notes'] ?? '');
     $items = $_POST['items'] ?? [];
+
+    if ($quote_id > 0 && !quote_is_approved($pdo, $quote_id)) {
+        $quote_id = 0;
+    }
+    if ($quote_id > 0) {
+        $quote = quote_find($pdo, $quote_id);
+        if ($quote) {
+            $client_id = (int)$quote['client_id'];
+            if ($service_description === '') {
+                $service_description = 'Orcamento #' . $quote_id;
+            }
+            if (empty($items)) {
+                $items = schedule_items_from_quote(quote_items($pdo, $quote_id));
+            }
+        }
+    }
 
     if ($client_id <= 0 || $service_description === '' || $scheduled_date === '' || $scheduled_time === '') {
         flash_set('error', 'Preencha cliente, servico, data e horario.');
@@ -182,6 +222,7 @@ function schedules_update(): void
 
     schedule_update($pdo, $id, [
         'client_id' => $client_id,
+        'quote_id' => $quote_id ?: null,
         'service_description' => $service_description,
         'scheduled_date' => $scheduled_date,
         'scheduled_time' => $scheduled_time,
@@ -294,6 +335,29 @@ function schedule_parse_items(PDO $pdo, array $items, array &$errors): array
     }
 
     return $parsed;
+}
+
+function schedule_items_from_quote(array $quote_items): array
+{
+    $items = [];
+    foreach ($quote_items as $item) {
+        if (($item['item_type'] ?? '') !== 'produto') {
+            continue;
+        }
+        $inventory_id = (int)($item['inventory_id'] ?? 0);
+        if ($inventory_id <= 0) {
+            continue;
+        }
+        $quantity = (int)($item['quantity'] ?? 1);
+        if ($quantity <= 0) {
+            $quantity = 1;
+        }
+        $items[] = [
+            'inventory_id' => $inventory_id,
+            'quantity' => $quantity,
+        ];
+    }
+    return $items;
 }
 
 function schedule_normalize_time(string $time): string

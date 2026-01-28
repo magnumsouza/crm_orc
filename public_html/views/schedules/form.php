@@ -19,10 +19,18 @@
         <input type="hidden" name="id" value="<?php echo $schedule['id']; ?>">
     <?php endif; ?>
 
+    <div>
+        <label class="text-sm font-medium text-slate-700">Tipo de agendamento</label>
+        <select class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="schedule_mode" data-schedule-mode>
+            <option value="avulso" <?php echo $is_edit && empty($schedule['quote_id']) ? 'selected' : ''; ?>>Servico avulso</option>
+            <option value="orcamento" <?php echo $is_edit && !empty($schedule['quote_id']) ? 'selected' : ''; ?>>Usar orcamento aprovado</option>
+        </select>
+    </div>
+
     <div class="grid gap-6 lg:grid-cols-2">
         <div>
             <label class="text-sm font-medium text-slate-700">Cliente</label>
-            <select class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="client_id" required>
+            <select class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="client_id" data-client-select required>
                 <option value="">Selecione</option>
                 <?php foreach ($clients as $client): ?>
                     <option value="<?php echo $client['id']; ?>" <?php echo $is_edit && (int)$schedule['client_id'] === (int)$client['id'] ? 'selected' : ''; ?>>
@@ -31,10 +39,24 @@
                 <?php endforeach; ?>
             </select>
         </div>
-        <div>
-            <label class="text-sm font-medium text-slate-700">Servico</label>
-            <textarea class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="service_description" rows="3" required><?php echo $is_edit ? htmlspecialchars($schedule['service_description']) : ''; ?></textarea>
+        <div data-quote-wrap>
+            <label class="text-sm font-medium text-slate-700">Usar orcamento aprovado (opcional)</label>
+            <select class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="quote_id" data-quote-select <?php echo empty($approved_quotes) ? 'disabled' : ''; ?>>
+                <option value=""><?php echo empty($approved_quotes) ? 'Nenhum orcamento aprovado' : 'Selecione'; ?></option>
+                <?php foreach ($approved_quotes as $quote): ?>
+                    <option value="<?php echo $quote['id']; ?>" <?php echo $is_edit && (int)($schedule['quote_id'] ?? 0) === (int)$quote['id'] ? 'selected' : ''; ?>>
+                        #<?php echo $quote['id']; ?> - <?php echo htmlspecialchars($quote['client_name']); ?> (<?php echo money_br($quote['total']); ?>)
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <p class="mt-1 text-xs text-slate-500">Selecionar orcamento preenche os itens automaticamente.</p>
         </div>
+    </div>
+
+    <div>
+            <label class="text-sm font-medium text-slate-700">Servico</label>
+            <textarea class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="service_description" data-service-description rows="3" required><?php echo $is_edit ? htmlspecialchars($schedule['service_description']) : ''; ?></textarea>
+    </div>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-2">
@@ -101,7 +123,7 @@
 
     <div>
         <label class="text-sm font-medium text-slate-700">Observacoes</label>
-        <textarea class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="notes" rows="3"><?php echo $is_edit ? htmlspecialchars($schedule['notes']) : ''; ?></textarea>
+        <textarea class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="notes" data-notes rows="3"><?php echo $is_edit ? htmlspecialchars($schedule['notes']) : ''; ?></textarea>
     </div>
 
     <div class="flex items-center gap-3">
@@ -142,5 +164,8 @@
     </div>
 </template>
 
+<script>
+    window.scheduleQuotes = <?php echo json_encode($approved_quotes ?? []); ?>;
+</script>
 <script src="<?php echo base_url('assets/js/schedules.js'); ?>"></script>
 <?php include __DIR__ . '/../partials/footer.php'; ?>
