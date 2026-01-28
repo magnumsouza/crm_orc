@@ -134,10 +134,16 @@
     </div>
 
     <template id="item-template">
-        <div class="grid gap-3 md:grid-cols-12 items-center">
-            <div class="md:col-span-5 min-w-0">
+        <div class="item-row grid gap-3 md:grid-cols-12 items-start">
+            <div class="md:col-span-2 min-w-0">
+                <select class="item-type w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" required>
+                    <option value="produto">Produto</option>
+                    <option value="servico">Servico (mao de obra)</option>
+                </select>
+            </div>
+            <div class="md:col-span-4 min-w-0 product-field">
                 <select class="product-select w-full rounded-lg border border-slate-200 px-4 py-2" required>
-                    <option value="">Produto/Servico</option>
+                    <option value="">Selecione o produto</option>
                     <?php foreach ($inventory_items as $product): ?>
                         <option value="<?php echo $product['id']; ?>" data-price="<?php echo $product['price']; ?>">
                             <?php echo htmlspecialchars($product['name']); ?>
@@ -145,13 +151,24 @@
                     <?php endforeach; ?>
                 </select>
             </div>
+            <div class="md:col-span-4 min-w-0 service-field hidden space-y-2">
+                <select class="service-select w-full rounded-lg border border-slate-200 px-4 py-2">
+                    <option value="">Selecione o servico (opcional)</option>
+                    <?php foreach ($services as $service): ?>
+                        <option value="<?php echo $service['id']; ?>" data-price="<?php echo $service['price']; ?>" data-name="<?php echo htmlspecialchars($service['name']); ?>" data-desc="<?php echo htmlspecialchars($service['description']); ?>">
+                            <?php echo htmlspecialchars($service['name']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <input type="text" class="service-desc w-full rounded-lg border border-slate-200 px-4 py-2" placeholder="Descricao do servico">
+            </div>
             <div class="md:col-span-2 min-w-0">
                 <input type="number" min="1" value="1" class="qty-input w-full rounded-lg border border-slate-200 px-4 py-2" required>
             </div>
-            <div class="md:col-span-3 min-w-0 text-sm text-slate-600">
-                <span class="unit-price">R$ 0,00</span>
+            <div class="md:col-span-2 min-w-0">
+                <input type="number" step="0.01" min="0" value="0.00" class="price-input w-full rounded-lg border border-slate-200 px-3 py-2 text-sm bg-slate-50" required readonly>
             </div>
-            <div class="md:col-span-2 flex md:justify-end">
+            <div class="md:col-span-1 flex md:justify-end">
                 <button type="button" class="remove-item btn-danger inline-flex w-full items-center justify-center px-3 py-1.5 text-xs font-semibold transition md:w-auto">Remover</button>
             </div>
         </div>
@@ -181,6 +198,10 @@
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
             };
+
+            window.quoteProducts = <?php echo json_encode($inventory_items); ?>;
+            window.quoteServices = <?php echo json_encode($services); ?>;
+            window.quoteExistingItems = [];
 
             openBtn.addEventListener('click', openModal);
             closeButtons.forEach((btn) => btn.addEventListener('click', closeModal));

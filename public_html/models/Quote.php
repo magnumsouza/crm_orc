@@ -28,7 +28,17 @@ function quote_find(PDO $pdo, int $id): ?array
 
 function quote_items(PDO $pdo, int $quote_id): array
 {
-    $stmt = $pdo->prepare('SELECT qi.*, i.name AS item_name, i.description AS item_description FROM quote_items qi JOIN inventory i ON i.id = qi.inventory_id WHERE qi.quote_id = ?');
+    $stmt = $pdo->prepare('
+        SELECT qi.*,
+               i.name AS product_name,
+               i.description AS product_description,
+               s.name AS service_name,
+               s.description AS service_description
+        FROM quote_items qi
+        LEFT JOIN inventory i ON i.id = qi.inventory_id
+        LEFT JOIN services s ON s.id = qi.service_id
+        WHERE qi.quote_id = ?
+    ');
     $stmt->execute([$quote_id]);
     return $stmt->fetchAll();
 }
@@ -47,10 +57,16 @@ function quote_create(PDO $pdo, array $data): int
 
 function quote_add_item(PDO $pdo, int $quote_id, array $item): void
 {
-    $stmt = $pdo->prepare('INSERT INTO quote_items (quote_id, inventory_id, quantity, unit_price, total_price) VALUES (?, ?, ?, ?, ?)');
+    $stmt = $pdo->prepare('
+        INSERT INTO quote_items (quote_id, inventory_id, service_id, item_type, description, quantity, unit_price, total_price)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ');
     $stmt->execute([
         $quote_id,
         $item['inventory_id'],
+        $item['service_id'],
+        $item['item_type'],
+        $item['description'],
         $item['quantity'],
         $item['unit_price'],
         $item['total_price'],

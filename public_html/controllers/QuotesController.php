@@ -2,15 +2,18 @@
 require_once __DIR__ . '/../models/Quote.php';
 require_once __DIR__ . '/../models/Client.php';
 require_once __DIR__ . '/../models/Inventory.php';
+require_once __DIR__ . '/../models/Service.php';
 
 function quotes_index(): void
 {
     $quotes = quote_all(db());
     $clients = [];
     $inventory_items = [];
+    $services = [];
     if (is_admin()) {
         $clients = client_all(db());
         $inventory_items = inventory_all(db());
+        $services = service_all(db(), true);
     }
     $flash = flash_get();
     include __DIR__ . '/../views/quotes/index.php';
@@ -20,6 +23,7 @@ function quotes_create(): void
 {
     $clients = client_all(db());
     $inventory_items = inventory_all(db());
+    $services = service_all(db(), true);
     $flash = flash_get();
     include __DIR__ . '/../views/quotes/form.php';
 }
@@ -35,6 +39,7 @@ function quotes_edit(): void
     $quote_items = quote_items(db(), $id);
     $clients = client_all(db());
     $inventory_items = inventory_all(db());
+    $services = service_all(db(), true);
     $flash = flash_get();
     include __DIR__ . '/../views/quotes/form.php';
 }
@@ -55,9 +60,43 @@ function quotes_store(): void
     $parsed_items = [];
 
     foreach ($items as $item) {
-        $inventory_id = (int)($item['inventory_id'] ?? 0);
+        $type = $item['type'] ?? 'produto';
         $quantity = (int)($item['quantity'] ?? 0);
-        if ($inventory_id <= 0 || $quantity <= 0) {
+        $unit = (float)($item['unit_price'] ?? 0);
+        $description = trim($item['description'] ?? '');
+
+        if ($quantity <= 0) {
+            continue;
+        }
+
+        if ($type === 'servico') {
+            $service_id = (int)($item['service_id'] ?? 0);
+            $service = $service_id > 0 ? service_find($pdo, $service_id) : null;
+            if ($service && $service['status'] === 'Inativo') {
+                continue;
+            }
+            if ($description === '' && $service) {
+                $description = $service['name'];
+            }
+            if ($description === '' || $unit <= 0) {
+                continue;
+            }
+            $line_total = $unit * $quantity;
+            $total += $line_total;
+            $parsed_items[] = [
+                'inventory_id' => null,
+                'service_id' => $service_id > 0 ? $service_id : null,
+                'item_type' => 'servico',
+                'description' => $description,
+                'quantity' => $quantity,
+                'unit_price' => $unit,
+                'total_price' => $line_total,
+            ];
+            continue;
+        }
+
+        $inventory_id = (int)($item['inventory_id'] ?? 0);
+        if ($inventory_id <= 0) {
             continue;
         }
         $product = inventory_find($pdo, $inventory_id);
@@ -69,6 +108,9 @@ function quotes_store(): void
         $total += $line_total;
         $parsed_items[] = [
             'inventory_id' => $inventory_id,
+            'service_id' => null,
+            'item_type' => 'produto',
+            'description' => null,
             'quantity' => $quantity,
             'unit_price' => $unit,
             'total_price' => $line_total,
@@ -118,9 +160,43 @@ function quotes_update(): void
     $parsed_items = [];
 
     foreach ($items as $item) {
-        $inventory_id = (int)($item['inventory_id'] ?? 0);
+        $type = $item['type'] ?? 'produto';
         $quantity = (int)($item['quantity'] ?? 0);
-        if ($inventory_id <= 0 || $quantity <= 0) {
+        $unit = (float)($item['unit_price'] ?? 0);
+        $description = trim($item['description'] ?? '');
+
+        if ($quantity <= 0) {
+            continue;
+        }
+
+        if ($type === 'servico') {
+            $service_id = (int)($item['service_id'] ?? 0);
+            $service = $service_id > 0 ? service_find($pdo, $service_id) : null;
+            if ($service && $service['status'] === 'Inativo') {
+                continue;
+            }
+            if ($description === '' && $service) {
+                $description = $service['name'];
+            }
+            if ($description === '' || $unit <= 0) {
+                continue;
+            }
+            $line_total = $unit * $quantity;
+            $total += $line_total;
+            $parsed_items[] = [
+                'inventory_id' => null,
+                'service_id' => $service_id > 0 ? $service_id : null,
+                'item_type' => 'servico',
+                'description' => $description,
+                'quantity' => $quantity,
+                'unit_price' => $unit,
+                'total_price' => $line_total,
+            ];
+            continue;
+        }
+
+        $inventory_id = (int)($item['inventory_id'] ?? 0);
+        if ($inventory_id <= 0) {
             continue;
         }
         $product = inventory_find($pdo, $inventory_id);
@@ -132,6 +208,9 @@ function quotes_update(): void
         $total += $line_total;
         $parsed_items[] = [
             'inventory_id' => $inventory_id,
+            'service_id' => null,
+            'item_type' => 'produto',
+            'description' => null,
             'quantity' => $quantity,
             'unit_price' => $unit,
             'total_price' => $line_total,

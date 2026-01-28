@@ -5,6 +5,7 @@ require_once __DIR__ . '/controllers/DashboardController.php';
 require_once __DIR__ . '/controllers/ClientsController.php';
 require_once __DIR__ . '/controllers/QuotesController.php';
 require_once __DIR__ . '/controllers/InventoryController.php';
+require_once __DIR__ . '/controllers/ServicesController.php';
 require_once __DIR__ . '/controllers/SchedulesController.php';
 require_once __DIR__ . '/controllers/InvoicesController.php';
 
@@ -46,6 +47,11 @@ $restricted_actions = [
     'inventory_edit',
     'inventory_update',
     'inventory_delete',
+    'services_create',
+    'services_store',
+    'services_edit',
+    'services_update',
+    'services_delete',
     'schedules_create',
     'schedules_store',
     'schedules_edit',
@@ -128,6 +134,24 @@ switch ($action) {
         break;
     case 'inventory_delete':
         inventory_delete();
+        break;
+    case 'services':
+        services_index();
+        break;
+    case 'services_create':
+        services_create();
+        break;
+    case 'services_store':
+        services_store();
+        break;
+    case 'services_edit':
+        services_edit();
+        break;
+    case 'services_update':
+        services_update();
+        break;
+    case 'services_delete':
+        services_delete();
         break;
     case 'schedules':
         schedules_index();

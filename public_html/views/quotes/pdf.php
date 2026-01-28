@@ -67,10 +67,18 @@
         </thead>
         <tbody>
             <?php foreach ($items as $item): ?>
+                <?php
+                $is_service = ($item['item_type'] ?? 'produto') === 'servico';
+                $item_name = $is_service ? ($item['service_name'] ?: $item['description']) : $item['product_name'];
+                $item_desc = $is_service ? ($item['description'] ?: $item['service_description']) : $item['product_description'];
+                ?>
                 <tr>
                     <td>
-                        <strong><?php echo htmlspecialchars($item['item_name']); ?></strong><br>
-                        <span class="muted"><?php echo htmlspecialchars($item['item_description']); ?></span>
+                        <strong><?php echo htmlspecialchars($item_name); ?></strong>
+                        <?php if ($is_service): ?>
+                            <span class="muted"> (Servico)</span>
+                        <?php endif; ?><br>
+                        <span class="muted"><?php echo htmlspecialchars($item_desc); ?></span>
                     </td>
                     <td><?php echo $item['quantity']; ?></td>
                     <td><?php echo money_br($item['unit_price']); ?></td>

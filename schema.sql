@@ -33,15 +33,29 @@ CREATE TABLE IF NOT EXISTS quotes (
     FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS services (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    description TEXT,
+    price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    status ENUM('Ativo', 'Inativo') NOT NULL DEFAULT 'Ativo',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS quote_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     quote_id INT NOT NULL,
-    inventory_id INT NOT NULL,
+    inventory_id INT NULL,
+    service_id INT NULL,
+    item_type ENUM('produto', 'servico') NOT NULL DEFAULT 'produto',
+    description TEXT,
     quantity INT NOT NULL DEFAULT 1,
     unit_price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     total_price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     FOREIGN KEY (quote_id) REFERENCES quotes(id) ON DELETE CASCADE,
-    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE RESTRICT
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE SET NULL,
+    FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS inventory (

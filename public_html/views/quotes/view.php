@@ -25,7 +25,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 text-slate-500">
                     <tr>
-                        <th class="text-left px-4 py-3">Produto</th>
+                        <th class="text-left px-4 py-3">Item</th>
                         <th class="text-left px-4 py-3">Qtd</th>
                         <th class="text-left px-4 py-3">Valor</th>
                         <th class="text-left px-4 py-3">Total</th>
@@ -33,8 +33,17 @@
                 </thead>
                 <tbody>
                     <?php foreach ($items as $item): ?>
+                        <?php
+                        $is_service = ($item['item_type'] ?? 'produto') === 'servico';
+                        $item_name = $is_service ? ($item['service_name'] ?: $item['description']) : $item['product_name'];
+                        ?>
                         <tr class="border-t border-slate-100">
-                            <td class="px-4 py-3 font-medium"><?php echo htmlspecialchars($item['item_name']); ?></td>
+                            <td class="px-4 py-3 font-medium">
+                                <?php echo htmlspecialchars($item_name); ?>
+                                <?php if ($is_service): ?>
+                                    <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-[11px] text-slate-600">Servico</span>
+                                <?php endif; ?>
+                            </td>
                             <td class="px-4 py-3"><?php echo $item['quantity']; ?></td>
                             <td class="px-4 py-3"><?php echo money_br($item['unit_price']); ?></td>
                             <td class="px-4 py-3"><?php echo money_br($item['total_price']); ?></td>
