@@ -5,9 +5,9 @@
         <p class="text-sm text-slate-500">Acompanhe propostas enviadas e aprovadas.</p>
     </div>
     <?php if (is_admin()): ?>
-        <button type="button" id="open-quote-modal" class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700">Novo Orcamento</button>
+        <button type="button" id="open-quote-modal" class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition">Novo Orcamento</button>
         <noscript>
-            <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
+            <a class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
         </noscript>
     <?php endif; ?>
 </div>
@@ -18,7 +18,7 @@
     </div>
 <?php endif; ?>
 
-<div class="rounded-2xl bg-white shadow-sm border border-slate-200 overflow-hidden">
+<div class="card-surface rounded-2xl overflow-hidden">
     <table class="w-full text-sm">
         <thead class="bg-slate-50 text-slate-500">
             <tr>
@@ -47,12 +47,31 @@
                         <?php endif; ?>
                     </td>
                     <td class="px-4 py-3">
-                        <a href="<?php echo base_url('index.php?action=quotes_view&id=' . $quote['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-blue-50 p-1.5 text-blue-700 hover:bg-blue-100 md:p-2" aria-label="Visualizar" title="Visualizar">
-                            <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                            </svg>
-                        </a>
+                        <div class="flex flex-nowrap gap-3">
+                            <a href="<?php echo base_url('index.php?action=quotes_view&id=' . $quote['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-blue-50 p-1.5 text-blue-700 hover:bg-blue-100 md:p-2" aria-label="Visualizar" title="Visualizar">
+                                <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </a>
+                            <?php if (is_admin()): ?>
+                                <a href="<?php echo base_url('index.php?action=quotes_edit&id=' . $quote['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar" data-confirm-link data-confirm-title="Editar orçamento" data-confirm-message="Deseja editar este orçamento?" data-confirm-text="Editar">
+                                    <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 20h9"></path>
+                                        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                                    </svg>
+                                </a>
+                                <a href="<?php echo base_url('index.php?action=quotes_delete&id=' . $quote['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-red-50 p-1.5 text-red-700 hover:bg-red-100 md:p-2" aria-label="Excluir" title="Excluir" data-confirm-link data-confirm-title="Excluir orçamento" data-confirm-message="Tem certeza que deseja excluir este orçamento?" data-confirm-text="Excluir" data-confirm-variant="danger">
+                                    <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 6h18"></path>
+                                        <path d="M8 6V4h8v2"></path>
+                                        <path d="M19 6l-1 14H6L5 6"></path>
+                                        <path d="M10 11v6"></path>
+                                        <path d="M14 11v6"></path>
+                                    </svg>
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -68,7 +87,7 @@
 <?php if (is_admin()): ?>
     <div id="quote-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-quote-modal-close></div>
-        <div class="relative w-full max-w-2xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
+        <div class="modal-panel relative w-full max-w-2xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
             <div class="flex items-start justify-between border-b border-slate-100 px-6 py-4">
                 <div>
                     <h2 class="text-xl font-semibold">Novo Orçamento</h2>
@@ -78,7 +97,7 @@
             </div>
 
             <form class="space-y-6 px-6 py-6" method="post" action="<?php echo base_url('index.php?action=quotes_store'); ?>">
-                <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200 space-y-4">
+                <div class="card-surface rounded-2xl p-6 space-y-4">
                     <div>
                         <label class="text-xs uppercase tracking-wide text-slate-500">Cliente</label>
                         <select name="client_id" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2" required>
@@ -94,10 +113,10 @@
                     </div>
                 </div>
 
-                <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+                <div class="card-surface rounded-2xl p-6">
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-semibold">Itens</h3>
-                        <button type="button" class="rounded-lg border border-slate-200 px-4 py-2" id="add-item">Adicionar item</button>
+                        <button type="button" class="btn-secondary px-4 py-2 text-sm font-semibold transition" id="add-item">Adicionar item</button>
                     </div>
                     <div class="mt-4 space-y-3" id="items-container"></div>
                     <div class="mt-6 flex items-center justify-end gap-3 text-lg">
@@ -107,8 +126,8 @@
                 </div>
 
                 <div class="flex gap-3 justify-end">
-                    <button class="rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700">Salvar Orçamento</button>
-                    <button type="button" class="rounded-lg border border-slate-200 px-4 py-2" data-quote-modal-close>Cancelar</button>
+                    <button class="btn-primary px-4 py-2 text-sm font-semibold transition">Salvar Orçamento</button>
+                    <button type="button" class="btn-outline px-4 py-2 text-sm font-semibold transition" data-quote-modal-close>Cancelar</button>
                 </div>
             </form>
         </div>
@@ -133,7 +152,7 @@
                 <span class="unit-price">R$ 0,00</span>
             </div>
             <div class="md:col-span-2 flex md:justify-end">
-                <button type="button" class="remove-item inline-flex w-full items-center justify-center rounded-md border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 md:w-auto">Remover</button>
+                <button type="button" class="remove-item btn-danger inline-flex w-full items-center justify-center px-3 py-1.5 text-xs font-semibold transition md:w-auto">Remover</button>
             </div>
         </div>
     </template>

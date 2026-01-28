@@ -13,9 +13,9 @@
         <p class="text-sm text-slate-500">Crie propostas com ítens e envie rapidamente.</p>
     </div>
     <?php if (is_admin()): ?>
-        <button type="button" id="open-quote-modal" class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700">Novo Orçamento</button>
+        <button type="button" id="open-quote-modal" class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition">Novo Orçamento</button>
         <noscript>
-            <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orçamento</a>
+            <a class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orçamento</a>
         </noscript>
 <?php endif; ?>
 
@@ -23,22 +23,22 @@
 <br>
 
 <div class="grid gap-6 lg:grid-cols-3">
-    <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-6">
         <p class="text-xs uppercase text-slate-500">Orçamentos criados</p>
         <p class="mt-4 text-3xl font-semibold text-brand-700"><?php echo $counts['total']; ?></p>
     </div>
-    <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-6">
         <p class="text-xs uppercase text-slate-500">Aprovados</p>
         <p class="mt-4 text-3xl font-semibold text-emerald-600"><?php echo $counts['approved']; ?></p>
     </div>
-    <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-6">
         <p class="text-xs uppercase text-slate-500">Recusados</p>
         <p class="mt-4 text-3xl font-semibold text-red-500"><?php echo $counts['rejected']; ?></p>
     </div>
 </div>
 
 <div class="mt-8 grid gap-6 lg:grid-cols-3">
-    <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-6">
         <p class="text-xs uppercase text-slate-500">Agendamentos</p>
         <div class="mt-4 space-y-2 text-sm text-slate-600">
             <div class="flex items-center justify-between">
@@ -58,9 +58,12 @@
                 <span class="font-semibold text-emerald-600"><?php echo $schedule_counts['concluidos']; ?></span>
             </div>
         </div>
-        <a class="mt-4 inline-flex text-sm text-brand-700 hover:text-brand-900" href="<?php echo base_url('index.php?action=schedules'); ?>">Ver agendamentos</a>
+        <a class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" href="<?php echo base_url('index.php?action=schedules'); ?>">
+            Ver agendamentos
+            <span aria-hidden="true">→</span>
+        </a>
     </div>
-    <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-6">
         <p class="text-xs uppercase text-slate-500">Inventario</p>
         <div class="mt-4 space-y-2 text-sm text-slate-600">
             <div class="flex items-center justify-between">
@@ -76,13 +79,19 @@
                 <span class="font-semibold text-slate-800"><?php echo money_br((float)$inventory_stats['total_value']); ?></span>
             </div>
         </div>
-        <a class="mt-4 inline-flex text-sm text-brand-700 hover:text-brand-900" href="<?php echo base_url('index.php?action=inventory'); ?>">Ver inventario</a>
+        <a class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" href="<?php echo base_url('index.php?action=inventory'); ?>">
+            Ver inventario
+            <span aria-hidden="true">→</span>
+        </a>
     </div>
-    <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-6">
         <p class="text-xs uppercase text-slate-500">Clientes</p>
         <p class="mt-4 text-3xl font-semibold text-slate-800"><?php echo $client_count; ?></p>
         <p class="mt-2 text-sm text-slate-500">Clientes cadastrados</p>
-        <a class="mt-4 inline-flex text-sm text-brand-700 hover:text-brand-900" href="<?php echo base_url('index.php?action=clients'); ?>">Ver clientes</a>
+        <a class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white" href="<?php echo base_url('index.php?action=clients'); ?>">
+            Ver clientes
+            <span aria-hidden="true">→</span>
+        </a>
     </div>
 </div>
 
@@ -91,7 +100,7 @@
 <?php if (is_admin()): ?>
     <div id="quote-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-quote-modal-close></div>
-        <div class="relative w-full max-w-2xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
+        <div class="modal-panel relative w-full max-w-2xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
             <div class="flex items-start justify-between border-b border-slate-100 px-6 py-4">
                 <div>
                     <h2 class="text-xl font-semibold">Novo Orcamento</h2>
@@ -101,7 +110,7 @@
             </div>
 
             <form class="space-y-6 px-6 py-6" method="post" action="<?php echo base_url('index.php?action=quotes_store'); ?>">
-                <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200 space-y-4">
+                <div class="card-surface rounded-2xl p-6 space-y-4">
                     <div>
                         <label class="text-xs uppercase tracking-wide text-slate-500">Cliente</label>
                         <select name="client_id" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2" required>
@@ -117,10 +126,10 @@
                     </div>
                 </div>
 
-                <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+                <div class="card-surface rounded-2xl p-6">
                     <div class="flex items-center justify-between">
                         <h3 class="text-lg font-semibold">Itens</h3>
-                        <button type="button" class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2" id="add-item">Adicionar item</button>
+                        <button type="button" class="btn-secondary inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold transition" id="add-item">Adicionar item</button>
                     </div>
                     <div class="mt-4 space-y-3" id="items-container"></div>
                     <div class="mt-6 flex items-center justify-end gap-3 text-lg">
@@ -130,8 +139,8 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3 justify-end">
-                    <button class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-brand-600/30 transition hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2">Salvar Orcamento</button>
-                    <button type="button" class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2" data-quote-modal-close>Cancelar</button>
+                    <button class="btn-primary inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold transition">Salvar Orcamento</button>
+                    <button type="button" class="btn-outline inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold transition" data-quote-modal-close>Cancelar</button>
                 </div>
             </form>
         </div>
@@ -156,7 +165,7 @@
                 <span class="unit-price">R$ 0,00</span>
             </div>
             <div class="md:col-span-2 flex md:justify-end">
-                <button type="button" class="remove-item inline-flex w-full items-center justify-center rounded-full border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-50 hover:border-red-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 focus-visible:ring-offset-2 md:w-auto">Remover</button>
+                <button type="button" class="remove-item btn-danger inline-flex w-full items-center justify-center px-3 py-1.5 text-xs font-semibold transition md:w-auto">Remover</button>
             </div>
         </div>
     </template>

@@ -22,7 +22,7 @@
         totalValue.textContent = formatMoney(total);
     };
 
-    const addItem = () => {
+    const addItem = (preset) => {
         const clone = template.content.cloneNode(true);
         const row = document.createElement('div');
         row.className = 'item-row';
@@ -50,6 +50,10 @@
         });
 
         container.appendChild(row);
+        if (preset) {
+            select.value = preset.inventory_id?.toString() || '';
+            qtyInput.value = preset.quantity?.toString() || '1';
+        }
         updateRow();
         renameInputs();
     };
@@ -65,7 +69,12 @@
 
     addButton.addEventListener('click', addItem);
 
-    addItem();
+    if (Array.isArray(window.quoteExistingItems) && window.quoteExistingItems.length) {
+        container.innerHTML = '';
+        window.quoteExistingItems.forEach((item) => addItem(item));
+    } else {
+        addItem();
+    }
 
     // Expose a reset hook for modal reuse
     window.quoteResetItems = () => {

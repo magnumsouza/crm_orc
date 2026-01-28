@@ -3,7 +3,6 @@ require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/controllers/AuthController.php';
 require_once __DIR__ . '/controllers/DashboardController.php';
 require_once __DIR__ . '/controllers/ClientsController.php';
-require_once __DIR__ . '/controllers/ProductsController.php';
 require_once __DIR__ . '/controllers/QuotesController.php';
 require_once __DIR__ . '/controllers/InventoryController.php';
 require_once __DIR__ . '/controllers/SchedulesController.php';
@@ -36,13 +35,11 @@ $restricted_actions = [
     'clients_edit',
     'clients_update',
     'clients_delete',
-    'products_create',
-    'products_store',
-    'products_edit',
-    'products_update',
-    'products_delete',
     'quotes_create',
     'quotes_store',
+    'quotes_edit',
+    'quotes_update',
+    'quotes_delete',
     'quotes_update_status',
     'inventory_create',
     'inventory_store',
@@ -84,24 +81,6 @@ switch ($action) {
     case 'clients_history':
         clients_history();
         break;
-    case 'products':
-        products_index();
-        break;
-    case 'products_create':
-        products_create();
-        break;
-    case 'products_store':
-        products_store();
-        break;
-    case 'products_edit':
-        products_edit();
-        break;
-    case 'products_update':
-        products_update();
-        break;
-    case 'products_delete':
-        products_delete();
-        break;
     case 'quotes':
         quotes_index();
         break;
@@ -111,8 +90,17 @@ switch ($action) {
     case 'quotes_store':
         quotes_store();
         break;
+    case 'quotes_edit':
+        quotes_edit();
+        break;
+    case 'quotes_update':
+        quotes_update();
+        break;
     case 'quotes_view':
         quotes_view();
+        break;
+    case 'quotes_delete':
+        quotes_delete();
         break;
     case 'quotes_update_status':
         quotes_update_status();

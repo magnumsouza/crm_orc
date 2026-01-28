@@ -57,6 +57,29 @@ function quote_add_item(PDO $pdo, int $quote_id, array $item): void
     ]);
 }
 
+function quote_update(PDO $pdo, int $quote_id, array $data): void
+{
+    $stmt = $pdo->prepare('UPDATE quotes SET client_id = ?, notes = ?, total = ? WHERE id = ?');
+    $stmt->execute([
+        $data['client_id'],
+        $data['notes'],
+        $data['total'],
+        $quote_id,
+    ]);
+}
+
+function quote_clear_items(PDO $pdo, int $quote_id): void
+{
+    $stmt = $pdo->prepare('DELETE FROM quote_items WHERE quote_id = ?');
+    $stmt->execute([$quote_id]);
+}
+
+function quote_delete(PDO $pdo, int $quote_id): void
+{
+    $stmt = $pdo->prepare('DELETE FROM quotes WHERE id = ?');
+    $stmt->execute([$quote_id]);
+}
+
 function quote_update_status(PDO $pdo, int $quote_id, string $status): void
 {
     $stmt = $pdo->prepare('UPDATE quotes SET status = ? WHERE id = ?');

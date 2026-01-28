@@ -11,7 +11,7 @@
         <h2 class="text-xl font-semibold"><?php echo $is_edit ? 'Editar agendamento' : 'Novo agendamento'; ?></h2>
         <p class="text-sm text-slate-500">Horario comercial: <?php echo substr($settings['business_hours_start'], 0, 5); ?> - <?php echo substr($settings['business_hours_end'], 0, 5); ?> (seg-sab).</p>
     </div>
-    <a class="text-sm text-slate-600 hover:text-slate-900" href="<?php echo base_url('index.php?action=schedules'); ?>">Voltar</a>
+    <a class="btn-outline px-4 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules'); ?>">Voltar</a>
 </div>
 
 <form class="mt-6 space-y-6" method="post" action="<?php echo base_url('index.php?action=' . ($is_edit ? 'schedules_update' : 'schedules_store')); ?>" data-slots-url="<?php echo base_url('index.php?action=schedules_api_slots'); ?>">
@@ -51,13 +51,13 @@
         </div>
     </div>
 
-    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div class="card-surface rounded-2xl p-5">
         <div class="flex items-center justify-between">
             <div>
                 <h3 class="text-sm font-semibold text-slate-800">Itens de estoque</h3>
                 <p class="text-xs text-slate-500">Adicione produtos/pecas usados no servico.</p>
             </div>
-            <button class="rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-700 hover:bg-slate-50" type="button" data-add-item>Adicionar item</button>
+            <button class="btn-outline px-3 py-2 text-xs font-semibold transition" type="button" data-add-item>Adicionar item</button>
         </div>
 
         <div class="mt-4 space-y-3" data-items-container>
@@ -80,7 +80,7 @@
                             <label class="text-xs font-medium text-slate-600">Quantidade</label>
                             <input class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" type="number" min="1" name="items[][quantity]" value="<?php echo (int)$item['quantity']; ?>" required>
                         </div>
-                        <button class="text-xs text-rose-600 hover:text-rose-700" type="button" data-remove-item>Remover</button>
+                        <button class="btn-danger px-3 py-1 text-xs font-semibold transition" type="button" data-remove-item>Remover</button>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -95,8 +95,8 @@
     </div>
 
     <div class="flex items-center gap-3">
-        <button class="rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" type="submit"><?php echo $is_edit ? 'Salvar alteracoes' : 'Agendar'; ?></button>
-        <a class="text-sm text-slate-600 hover:text-slate-900" href="<?php echo base_url('index.php?action=schedules'); ?>">Cancelar</a>
+        <button class="btn-primary px-4 py-2 text-sm font-semibold transition" type="submit"><?php echo $is_edit ? 'Salvar alteracoes' : 'Agendar'; ?></button>
+        <a class="btn-outline px-4 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules'); ?>">Cancelar</a>
     </div>
 </form>
 
@@ -118,7 +118,7 @@
             <label class="text-xs font-medium text-slate-600">Quantidade</label>
             <input class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" type="number" min="1" name="items[][quantity]" value="1" required>
         </div>
-        <button class="text-xs text-rose-600 hover:text-rose-700" type="button" data-remove-item>Remover</button>
+        <button class="btn-danger px-3 py-1 text-xs font-semibold transition" type="button" data-remove-item>Remover</button>
     </div>
 </template>
 

@@ -5,9 +5,9 @@
         <p class="text-sm text-slate-500">Gerencie sua base de clientes.</p>
     </div>
     <?php if (is_admin()): ?>
-        <button type="button" id="open-client-modal" class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700">Novo Cliente</button>
+        <button type="button" id="open-client-modal" class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition">Novo Cliente</button>
         <noscript>
-            <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=clients_create'); ?>">Novo Cliente</a>
+            <a class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=clients_create'); ?>">Novo Cliente</a>
         </noscript>
     <?php endif; ?>
 </div>
@@ -21,10 +21,10 @@
 <form class="mb-6 flex gap-3" method="get" action="<?php echo base_url('index.php'); ?>">
     <input type="hidden" name="action" value="clients">
     <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" placeholder="Buscar por nome" class="w-full rounded-lg border border-slate-200 px-4 py-2">
-    <button class="rounded-lg border border-slate-200 px-4 py-2">Buscar</button>
+    <button class="btn-outline px-4 py-2 text-sm font-semibold transition">Buscar</button>
 </form>
 
-<div class="rounded-2xl bg-white shadow-sm border border-slate-200 overflow-hidden">
+<div class="card-surface rounded-2xl overflow-hidden">
     <table class="w-full text-sm">
         <thead class="bg-slate-50 text-slate-500">
             <tr>
@@ -45,7 +45,7 @@
                     <td class="px-4 py-3">
                         <div class="flex flex-nowrap gap-3">
                             <?php if (is_admin()): ?>
-                                <a href="<?php echo base_url('index.php?action=clients_edit&id=' . $client['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar">
+                                <a href="<?php echo base_url('index.php?action=clients_edit&id=' . $client['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar" data-confirm-link data-confirm-title="Editar cliente" data-confirm-message="Deseja editar este cliente agora?" data-confirm-text="Editar">
                                     <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M12 20h9"></path>
                                         <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
@@ -60,7 +60,7 @@
                                 </svg>
                             </a>
                             <?php if (is_admin()): ?>
-                                <a href="<?php echo base_url('index.php?action=clients_delete&id=' . $client['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-red-50 p-1.5 text-red-700 hover:bg-red-100 md:p-2" aria-label="Excluir" title="Excluir" onclick="return confirm('Excluir cliente?')">
+                                <a href="<?php echo base_url('index.php?action=clients_delete&id=' . $client['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-red-50 p-1.5 text-red-700 hover:bg-red-100 md:p-2" aria-label="Excluir" title="Excluir" data-confirm-link data-confirm-title="Excluir cliente" data-confirm-message="Tem certeza que deseja excluir este cliente?" data-confirm-text="Excluir" data-confirm-variant="danger">
                                     <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M3 6h18"></path>
                                         <path d="M8 6V4h8v2"></path>
@@ -86,7 +86,7 @@
 <?php if (is_admin()): ?>
     <div id="client-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-client-modal-close></div>
-        <div class="relative w-full max-w-2xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
+        <div class="modal-panel relative w-full max-w-2xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
             <div class="flex items-start justify-between border-b border-slate-100 px-6 py-4">
                 <div>
                     <h2 class="text-xl font-semibold">Novo Cliente</h2>
@@ -96,7 +96,7 @@
             </div>
 
             <form class="space-y-6 px-6 py-6" method="post" action="<?php echo base_url('index.php?action=clients_store'); ?>">
-                <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200 space-y-4">
+                <div class="card-surface rounded-2xl p-6 space-y-4">
                     <div class="grid gap-4 md:grid-cols-2">
                         <div>
                             <label class="text-xs uppercase tracking-wide text-slate-500">Nome</label>
@@ -122,8 +122,8 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3 justify-end">
-                    <button class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-brand-600/30 transition hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2">Salvar Cliente</button>
-                    <button type="button" class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-5 py-2 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2" data-client-modal-close>Cancelar</button>
+                    <button class="btn-primary inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold transition">Salvar Cliente</button>
+                    <button type="button" class="btn-outline inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold transition" data-client-modal-close>Cancelar</button>
                 </div>
             </form>
         </div>

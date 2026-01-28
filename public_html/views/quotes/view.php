@@ -4,7 +4,7 @@
         <h1 class="text-2xl font-semibold">Orçamento #<?php echo $quote['id']; ?></h1>
         <p class="text-sm text-slate-500">Cliente: <?php echo htmlspecialchars($quote['client_name']); ?></p>
     </div>
-    <a class="rounded-lg border border-slate-200 px-4 py-2" href="<?php echo base_url('index.php?action=quotes'); ?>">Voltar</a>
+    <a class="btn-outline px-4 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=quotes'); ?>">Voltar</a>
 </div>
 
 <?php if (!empty($flash)): ?>
@@ -14,7 +14,7 @@
 <?php endif; ?>
 
 <div class="grid gap-6 lg:grid-cols-3">
-    <div class="lg:col-span-2 rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+    <div class="lg:col-span-2 card-surface rounded-2xl p-6">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold">Itens</h2>
             <?php if (!empty($quote['pdf_path'])): ?>
@@ -51,7 +51,7 @@
         <?php endif; ?>
     </div>
 
-    <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200 space-y-4">
+    <div class="card-surface rounded-2xl p-6 space-y-4">
         <div>
             <p class="text-xs uppercase text-slate-500">Status atual</p>
             <p class="mt-2 text-lg font-semibold"><?php echo htmlspecialchars($quote['status']); ?></p>
@@ -64,17 +64,17 @@
                     <option value="Aprovado" <?php echo $quote['status'] === 'Aprovado' ? 'selected' : ''; ?>>Aprovado</option>
                     <option value="Recusado" <?php echo $quote['status'] === 'Recusado' ? 'selected' : ''; ?>>Recusado</option>
                 </select>
-                <button class="w-full rounded-lg border border-slate-200 px-4 py-2">Atualizar</button>
+                <button class="btn-outline w-full px-4 py-2 text-sm font-semibold transition">Atualizar</button>
             </form>
         <?php endif; ?>
 
-        <a class="w-full inline-flex justify-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=quotes_pdf&id=' . $quote['id']); ?>">Gerar PDF</a>
+        <a class="btn-primary w-full inline-flex justify-center px-4 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=quotes_pdf&id=' . $quote['id']); ?>">Gerar PDF</a>
 
         <?php if (!empty($quote['pdf_path'])): ?>
             <?php $whats = phone_to_whatsapp($quote['client_phone']); ?>
             <?php $pdf_link = base_url($quote['pdf_path']); ?>
             <?php if ($whats): ?>
-                <a class="w-full inline-flex justify-center rounded-lg bg-emerald-500 px-4 py-2 text-white font-medium hover:bg-emerald-600" href="https://wa.me/<?php echo $whats; ?>?text=<?php echo urlencode('Segue o orcamento: ' . $pdf_link); ?>" target="_blank">Enviar por WhatsApp</a>
+                <a class="btn-success w-full inline-flex justify-center px-4 py-2 text-sm font-semibold transition" href="https://wa.me/<?php echo $whats; ?>?text=<?php echo urlencode('Segue o orcamento: ' . $pdf_link); ?>" target="_blank">Enviar por WhatsApp</a>
             <?php endif; ?>
         <?php endif; ?>
     </div>

@@ -159,7 +159,7 @@ function inventory_update(): void
 
     // Verificar se novo SKU já existe (sem ser o atual)
     $existing = inventory_by_sku($pdo, $sku);
-    if ($existing && $existing['id'] !== $id) {
+    if ($existing && (int)$existing['id'] !== $id) {
         flash_set('error', 'SKU já existe no sistema.');
         redirect('index.php?action=inventory_edit&id=' . $id);
     }

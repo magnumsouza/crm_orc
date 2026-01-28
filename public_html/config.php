@@ -10,7 +10,7 @@ return [
     ],
     'base_url' => 'auto',
     'company' => [
-        'name' => 'Sua Empresa',
+        'name' => 'Web Service O.E.S',
         'document' => 'CNPJ 00.000.000/0000-00',
         'phone' => '(11) 99999-9999',
         'email' => 'contato@suaempresa.com',

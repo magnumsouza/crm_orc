@@ -11,41 +11,41 @@
         <p class="text-sm text-slate-500">Gerencie servicos agendados e status em tempo real.</p>
     </div>
     <?php if (is_admin()): ?>
-        <button type="button" id="open-schedule-modal" class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700">Novo Agendamento</button>
+        <button type="button" id="open-schedule-modal" class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition">Novo Agendamento</button>
         <noscript>
-            <a class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700" href="<?php echo base_url('index.php?action=schedules_create'); ?>">Novo Agendamento</a>
+            <a class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules_create'); ?>">Novo Agendamento</a>
         </noscript>
     <?php endif; ?>
 </div>
 
 <div class="mt-6 grid gap-4 md:grid-cols-5">
-    <div class="rounded-2xl bg-white p-4 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-4">
         <p class="text-xs uppercase text-slate-500">Total</p>
         <p class="mt-2 text-2xl font-semibold text-slate-800"><?php echo $counts['total']; ?></p>
     </div>
-    <div class="rounded-2xl bg-white p-4 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-4">
         <p class="text-xs uppercase text-slate-500">Agendados</p>
         <p class="mt-2 text-2xl font-semibold text-blue-600"><?php echo $counts['agendados']; ?></p>
     </div>
-    <div class="rounded-2xl bg-white p-4 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-4">
         <p class="text-xs uppercase text-slate-500">Confirmados</p>
         <p class="mt-2 text-2xl font-semibold text-amber-600"><?php echo $counts['confirmados']; ?></p>
     </div>
-    <div class="rounded-2xl bg-white p-4 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-4">
         <p class="text-xs uppercase text-slate-500">Concluidos</p>
         <p class="mt-2 text-2xl font-semibold text-emerald-600"><?php echo $counts['concluidos']; ?></p>
     </div>
-    <div class="rounded-2xl bg-white p-4 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-4">
         <p class="text-xs uppercase text-slate-500">Cancelados</p>
         <p class="mt-2 text-2xl font-semibold text-rose-600"><?php echo $counts['cancelados']; ?></p>
     </div>
 </div>
 
-<div class="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+<div class="mt-6 card-surface rounded-2xl p-4">
     <form class="mb-4 flex flex-wrap items-center gap-3" method="get" action="<?php echo base_url('index.php'); ?>">
         <input type="hidden" name="action" value="schedules">
         <input class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm md:w-80" type="text" name="q" placeholder="Buscar por cliente ou servico" value="<?php echo htmlspecialchars($search); ?>">
-        <button class="rounded-lg bg-slate-900 px-4 py-2 text-sm text-white hover:bg-slate-800" type="submit">Buscar</button>
+        <button class="btn-outline px-4 py-2 text-sm font-semibold transition" type="submit">Buscar</button>
     </form>
 
     <div class="overflow-x-auto">
@@ -98,7 +98,7 @@
                                     </svg>
                                 </a>
                                 <?php if (is_admin()): ?>
-                                    <a href="<?php echo base_url('index.php?action=schedules_edit&id=' . $schedule['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar">
+                                    <a href="<?php echo base_url('index.php?action=schedules_edit&id=' . $schedule['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar" data-confirm-link data-confirm-title="Editar agendamento" data-confirm-message="Deseja editar este agendamento?" data-confirm-text="Editar">
                                         <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path d="M12 20h9"></path>
                                             <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
@@ -124,7 +124,7 @@
 <?php if (is_admin()): ?>
     <div id="schedule-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-schedule-modal-close></div>
-        <div class="relative w-full max-w-3xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
+        <div class="modal-panel relative w-full max-w-3xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
             <div class="flex items-start justify-between border-b border-slate-100 px-6 py-4">
                 <div>
                     <h2 class="text-xl font-semibold">Novo Agendamento</h2>
@@ -164,13 +164,13 @@
                     </div>
                 </div>
 
-                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div class="card-surface rounded-2xl p-5">
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Itens de estoque</h3>
                             <p class="text-xs text-slate-500">Adicione produtos/pecas usados no servico.</p>
                         </div>
-                        <button class="rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-700 hover:bg-slate-50" type="button" data-add-item>Adicionar item</button>
+                        <button class="btn-outline px-3 py-2 text-xs font-semibold transition" type="button" data-add-item>Adicionar item</button>
                     </div>
 
                     <div class="mt-4 space-y-3" data-items-container>
@@ -183,7 +183,7 @@
                     <textarea class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="notes" rows="3"></textarea>
                 </div>
 
-                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div class="card-surface rounded-2xl p-5">
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="text-sm font-semibold text-slate-800">Nota Fiscal</h3>
@@ -232,10 +232,10 @@
                             <textarea name="invoice_client_address" rows="2" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="Endereco completo"></textarea>
                         </div>
 
-                        <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                        <div class="card-surface rounded-2xl p-4">
                             <div class="flex items-center justify-between">
                                 <h4 class="text-sm font-semibold text-slate-800">Itens avulsos</h4>
-                                <button type="button" class="rounded-lg border border-slate-200 px-3 py-2 text-xs text-slate-700 hover:bg-slate-50" data-add-invoice-item>Adicionar item</button>
+                                <button type="button" class="btn-outline px-3 py-2 text-xs font-semibold transition" data-add-invoice-item>Adicionar item</button>
                             </div>
                             <div class="mt-4 space-y-3" data-invoice-items>
                                 <p class="text-sm text-slate-500" data-empty-invoice>Sem itens adicionados.</p>
@@ -245,8 +245,8 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3 justify-end">
-                    <button class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700">Agendar</button>
-                    <button type="button" class="inline-flex items-center rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50" data-schedule-modal-close>Cancelar</button>
+                    <button class="btn-primary px-4 py-2 text-sm font-semibold transition">Agendar</button>
+                    <button type="button" class="btn-outline px-4 py-2 text-sm font-semibold transition" data-schedule-modal-close>Cancelar</button>
                 </div>
             </form>
         </div>
@@ -270,7 +270,7 @@
                 <label class="text-xs font-medium text-slate-600">Quantidade</label>
                 <input class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" type="number" min="1" name="items[][quantity]" value="1" required>
             </div>
-            <button class="text-xs text-rose-600 hover:text-rose-700" type="button" data-remove-item>Remover</button>
+            <button class="btn-danger px-3 py-1 text-xs font-semibold transition" type="button" data-remove-item>Remover</button>
         </div>
     </template>
 
@@ -288,7 +288,7 @@
                 <label class="text-xs font-medium text-slate-600">Valor unitario</label>
                 <input class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" type="number" step="0.01" min="0" name="invoice_items[][unit_price]" value="0">
             </div>
-            <button class="text-xs text-rose-600 hover:text-rose-700" type="button" data-remove-invoice>Remover</button>
+            <button class="btn-danger px-3 py-1 text-xs font-semibold transition" type="button" data-remove-invoice>Remover</button>
         </div>
     </template>
 

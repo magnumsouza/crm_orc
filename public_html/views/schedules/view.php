@@ -12,15 +12,15 @@
     </div>
     <div class="flex items-center gap-3">
         <?php if (is_admin()): ?>
-            <a class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50" href="<?php echo base_url('index.php?action=schedules_edit&id=' . $schedule['id']); ?>">Editar</a>
-            <a class="rounded-lg border border-rose-200 px-3 py-2 text-sm text-rose-600 hover:bg-rose-50" href="<?php echo base_url('index.php?action=schedules_delete&id=' . $schedule['id']); ?>" onclick="return confirm('Cancelar este agendamento?');">Cancelar</a>
+            <a class="btn-outline px-3 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules_edit&id=' . $schedule['id']); ?>" data-confirm-link data-confirm-title="Editar agendamento" data-confirm-message="Deseja editar este agendamento?" data-confirm-text="Editar">Editar</a>
+            <a class="btn-danger px-3 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules_delete&id=' . $schedule['id']); ?>" data-confirm-link data-confirm-title="Cancelar agendamento" data-confirm-message="Tem certeza que deseja cancelar este agendamento?" data-confirm-text="Cancelar" data-confirm-variant="danger">Cancelar</a>
         <?php endif; ?>
-        <a class="text-sm text-slate-600 hover:text-slate-900" href="<?php echo base_url('index.php?action=schedules'); ?>">Voltar</a>
+        <a class="btn-outline px-3 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules'); ?>">Voltar</a>
     </div>
 </div>
 
 <div class="mt-6 grid gap-6 lg:grid-cols-3">
-    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-2">
+    <div class="card-surface rounded-2xl p-5 lg:col-span-2">
         <div class="space-y-4">
             <div>
                 <p class="text-xs uppercase text-slate-500">Cliente</p>
@@ -41,7 +41,7 @@
             <?php endif; ?>
         </div>
     </div>
-    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div class="card-surface rounded-2xl p-5">
         <p class="text-xs uppercase text-slate-500">Agendamento</p>
         <p class="mt-2 text-lg font-semibold text-slate-800"><?php echo date('d/m/Y', strtotime($schedule['scheduled_date'])); ?></p>
         <p class="text-sm text-slate-600"><?php echo substr($schedule['scheduled_time'], 0, 5); ?></p>
@@ -52,7 +52,7 @@
     </div>
 </div>
 
-<div class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+<div class="mt-6 card-surface rounded-2xl p-5">
     <div class="flex items-center justify-between">
         <h3 class="text-sm font-semibold text-slate-800">Itens do servico</h3>
     </div>

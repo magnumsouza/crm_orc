@@ -13,7 +13,7 @@
     </div>
 <?php endif; ?>
 
-<div class="rounded-lg bg-white shadow-sm border border-slate-200 overflow-hidden">
+<div class="card-surface rounded-2xl overflow-hidden">
     <form method="post" action="<?php echo base_url('index.php'); ?>" class="p-6 space-y-6">
         <?php if (isset($item['id'])): ?>
             <input type="hidden" name="action" value="inventory_update">
@@ -35,7 +35,28 @@
 
         <div>
             <label for="category" class="block text-sm font-medium mb-2">Categoria</label>
-            <input type="text" name="category" id="category" value="<?php echo htmlspecialchars($item['category'] ?? ''); ?>" class="w-full rounded-lg border border-slate-200 px-4 py-2" placeholder="Ex: Notebooks">
+            <?php
+            $category = $item['category'] ?? '';
+            $categories = [];
+            if (!empty($stats['categories'])) {
+                foreach ($stats['categories'] as $row) {
+                    if (!empty($row['category'])) {
+                        $categories[] = $row['category'];
+                    }
+                }
+            }
+            if ($category !== '' && !in_array($category, $categories, true)) {
+                $categories[] = $category;
+            }
+            ?>
+            <select name="category" id="category" class="w-full rounded-lg border border-slate-200 px-4 py-2">
+                <option value="">Selecione</option>
+                <?php foreach ($categories as $option): ?>
+                    <option value="<?php echo htmlspecialchars($option); ?>" <?php echo $category === $option ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($option); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
 
         <div>
@@ -85,10 +106,10 @@
         </div>
 
         <div class="flex gap-3 pt-4">
-            <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <button type="submit" class="btn-primary px-6 py-2 text-sm font-semibold transition">
                 <?php echo isset($item['id']) ? 'Atualizar' : 'Adicionar ao Estoque'; ?>
             </button>
-            <a href="<?php echo base_url('index.php?action=inventory'); ?>" class="px-6 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300">
+            <a href="<?php echo base_url('index.php?action=inventory'); ?>" class="btn-outline px-6 py-2 text-sm font-semibold transition">
                 Cancelar
             </a>
         </div>

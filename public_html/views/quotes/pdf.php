@@ -6,7 +6,7 @@
     <style>
         body { font-family: DejaVu Sans, sans-serif; color: #0f172a; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .logo { width: 80px; height: 80px; background: #4d7dff; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 12px; }
+        .logo { width: 180px; height: auto; }
         .box { border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; }
         .title { font-size: 20px; margin: 0 0 4px; }
         .muted { color: #64748b; font-size: 12px; }
@@ -19,8 +19,21 @@
 </head>
 <body>
     <div class="header">
-        <div>
-            <div class="logo">C</div>
+        <div class="logo">
+            <svg width="180" height="56" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+              <g transform="translate(10,10)">
+                <rect x="0" y="20" width="50" height="40" rx="6" fill="#1E88E5"/>
+                <circle cx="25" cy="40" r="10" fill="#43A047"/>
+                <g stroke="#43A047" stroke-width="3">
+                  <line x1="25" y1="20" x2="25" y2="10"/>
+                  <line x1="25" y1="60" x2="25" y2="70"/>
+                  <line x1="5" y1="40" x2="-5" y2="40"/>
+                  <line x1="45" y1="40" x2="55" y2="40"/>
+                </g>
+              </g>
+              <text x="80" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#1E88E5" font-weight="600">WebService</text>
+              <text x="82" y="78" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#555">Orçamentos • Estoque • Serviços</text>
+            </svg>
         </div>
         <div style="text-align:right;">
             <p class="title">Orcamento #<?php echo $quote['id']; ?></p>

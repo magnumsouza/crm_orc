@@ -1,6 +1,7 @@
 <?php include __DIR__ . '/../partials/header.php'; ?>
+<?php $is_edit = !empty($quote); ?>
 <div class="mb-6">
-    <h1 class="text-2xl font-semibold">Novo Orcamento</h1>
+    <h1 class="text-2xl font-semibold"><?php echo $is_edit ? 'Editar Orcamento' : 'Novo Orcamento'; ?></h1>
     <p class="text-sm text-slate-500">Selecione o cliente e inclua itens.</p>
 </div>
 
@@ -10,27 +11,32 @@
     </div>
 <?php endif; ?>
 
-<form class="space-y-6" method="post" action="<?php echo base_url('index.php?action=quotes_store'); ?>">
-    <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200 space-y-4">
+<form class="space-y-6" method="post" action="<?php echo base_url('index.php?action=' . ($is_edit ? 'quotes_update' : 'quotes_store')); ?>">
+    <?php if ($is_edit): ?>
+        <input type="hidden" name="id" value="<?php echo $quote['id']; ?>">
+    <?php endif; ?>
+    <div class="card-surface rounded-2xl p-6 space-y-4">
         <div>
             <label class="text-xs uppercase tracking-wide text-slate-500">Cliente</label>
             <select name="client_id" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2" required>
                 <option value="">Selecione</option>
                 <?php foreach ($clients as $client): ?>
-                    <option value="<?php echo $client['id']; ?>"><?php echo htmlspecialchars($client['name']); ?></option>
+                    <option value="<?php echo $client['id']; ?>" <?php echo $is_edit && (int)$quote['client_id'] === (int)$client['id'] ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($client['name']); ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
         </div>
         <div>
             <label class="text-xs uppercase tracking-wide text-slate-500">Observacoes adicionais</label>
-            <textarea name="notes" rows="3" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2"></textarea>
+            <textarea name="notes" rows="3" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2"><?php echo $is_edit ? htmlspecialchars($quote['notes']) : ''; ?></textarea>
         </div>
     </div>
 
-    <div class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200">
+    <div class="card-surface rounded-2xl p-6">
         <div class="flex items-center justify-between">
             <h2 class="text-lg font-semibold">Itens</h2>
-            <button type="button" class="rounded-lg border border-slate-200 px-4 py-2" id="add-item">Adicionar item</button>
+            <button type="button" class="btn-secondary px-4 py-2 text-sm font-semibold transition" id="add-item">Adicionar item</button>
         </div>
         <div class="mt-4 space-y-3" id="items-container"></div>
         <div class="mt-6 flex items-center justify-end gap-3 text-lg">
@@ -40,8 +46,8 @@
     </div>
 
     <div class="flex gap-3">
-        <button class="rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700">Salvar Orcamento</button>
-        <a class="rounded-lg border border-slate-200 px-4 py-2" href="<?php echo base_url('index.php?action=quotes'); ?>">Voltar</a>
+        <button class="btn-primary px-4 py-2 text-sm font-semibold transition"><?php echo $is_edit ? 'Salvar alteracoes' : 'Salvar Orcamento'; ?></button>
+        <a class="btn-outline px-4 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=quotes'); ?>">Voltar</a>
     </div>
 </form>
 
@@ -64,7 +70,7 @@
             <span class="unit-price">R$ 0,00</span>
         </div>
         <div class="md:col-span-1 text-right">
-            <button type="button" class="remove-item text-red-600">Remover</button>
+            <button type="button" class="remove-item btn-danger px-3 py-1 text-xs font-semibold transition">Remover</button>
         </div>
     </div>
 </template>
@@ -72,5 +78,6 @@
 <script src="<?php echo base_url('assets/js/quote.js'); ?>"></script>
 <script>
     window.quoteProducts = <?php echo json_encode($inventory_items); ?>;
+    window.quoteExistingItems = <?php echo json_encode($quote_items ?? []); ?>;
 </script>
 <?php include __DIR__ . '/../partials/footer.php'; ?>

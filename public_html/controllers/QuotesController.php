@@ -24,6 +24,21 @@ function quotes_create(): void
     include __DIR__ . '/../views/quotes/form.php';
 }
 
+function quotes_edit(): void
+{
+    $id = (int)($_GET['id'] ?? 0);
+    $quote = quote_find(db(), $id);
+    if (!$quote) {
+        flash_set('error', 'Orcamento nao encontrado.');
+        redirect('index.php?action=quotes');
+    }
+    $quote_items = quote_items(db(), $id);
+    $clients = client_all(db());
+    $inventory_items = inventory_all(db());
+    $flash = flash_get();
+    include __DIR__ . '/../views/quotes/form.php';
+}
+
 function quotes_store(): void
 {
     $pdo = db();
@@ -80,6 +95,69 @@ function quotes_store(): void
     redirect('index.php?action=quotes_view&id=' . $quote_id);
 }
 
+function quotes_update(): void
+{
+    $pdo = db();
+    $id = (int)($_POST['id'] ?? 0);
+    $client_id = (int)($_POST['client_id'] ?? 0);
+    $notes = trim($_POST['notes'] ?? '');
+    $items = $_POST['items'] ?? [];
+
+    $existing = quote_find($pdo, $id);
+    if (!$existing) {
+        flash_set('error', 'Orcamento nao encontrado.');
+        redirect('index.php?action=quotes');
+    }
+
+    if ($client_id <= 0 || empty($items)) {
+        flash_set('error', 'Selecione o cliente e ao menos um item.');
+        redirect('index.php?action=quotes_edit&id=' . $id);
+    }
+
+    $total = 0.0;
+    $parsed_items = [];
+
+    foreach ($items as $item) {
+        $inventory_id = (int)($item['inventory_id'] ?? 0);
+        $quantity = (int)($item['quantity'] ?? 0);
+        if ($inventory_id <= 0 || $quantity <= 0) {
+            continue;
+        }
+        $product = inventory_find($pdo, $inventory_id);
+        if (!$product || ($product['status'] ?? '') === 'Inativo') {
+            continue;
+        }
+        $unit = (float)$product['price'];
+        $line_total = $unit * $quantity;
+        $total += $line_total;
+        $parsed_items[] = [
+            'inventory_id' => $inventory_id,
+            'quantity' => $quantity,
+            'unit_price' => $unit,
+            'total_price' => $line_total,
+        ];
+    }
+
+    if (empty($parsed_items)) {
+        flash_set('error', 'Itens invalidos.');
+        redirect('index.php?action=quotes_edit&id=' . $id);
+    }
+
+    quote_update($pdo, $id, [
+        'client_id' => $client_id,
+        'notes' => $notes,
+        'total' => $total,
+    ]);
+
+    quote_clear_items($pdo, $id);
+    foreach ($parsed_items as $item) {
+        quote_add_item($pdo, $id, $item);
+    }
+
+    flash_set('success', 'Orcamento atualizado.');
+    redirect('index.php?action=quotes_view&id=' . $id);
+}
+
 function quotes_view(): void
 {
     $id = (int)($_GET['id'] ?? 0);
@@ -91,6 +169,19 @@ function quotes_view(): void
     $items = quote_items(db(), $id);
     $flash = flash_get();
     include __DIR__ . '/../views/quotes/view.php';
+}
+
+function quotes_delete(): void
+{
+    $id = (int)($_GET['id'] ?? 0);
+    $quote = quote_find(db(), $id);
+    if (!$quote) {
+        flash_set('error', 'Orcamento nao encontrado.');
+        redirect('index.php?action=quotes');
+    }
+    quote_delete(db(), $id);
+    flash_set('success', 'Orcamento excluido.');
+    redirect('index.php?action=quotes');
 }
 
 function quotes_update_status(): void

@@ -6,11 +6,11 @@
         <p class="text-sm text-slate-500">Gerencie o inventário de produtos</p>
     </div>
     <?php if (is_admin()): ?>
-        <button type="button" id="open-inventory-modal" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+        <button type="button" id="open-inventory-modal" class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition">
             + Novo Produto
         </button>
         <noscript>
-            <a href="<?php echo base_url('index.php?action=inventory_create'); ?>" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <a href="<?php echo base_url('index.php?action=inventory_create'); ?>" class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition">
                 + Novo Produto
             </a>
         </noscript>
@@ -25,21 +25,21 @@
 
 <!-- Cards de Estatísticas -->
 <div class="grid grid-cols-4 gap-4 mb-6">
-    <div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4">
+    <div class="card-surface rounded-xl p-4">
         <p class="text-sm text-slate-600">Total de Produtos</p>
         <p class="text-3xl font-semibold mt-2"><?php echo $stats['total_items']; ?></p>
     </div>
-    <div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4">
+    <div class="card-surface rounded-xl p-4">
         <p class="text-sm text-slate-600">Estoque Baixo</p>
         <p class="text-3xl font-semibold mt-2 <?php echo $stats['low_stock_count'] > 0 ? 'text-red-600' : 'text-green-600'; ?>">
             <?php echo $stats['low_stock_count']; ?>
         </p>
     </div>
-    <div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4">
+    <div class="card-surface rounded-xl p-4">
         <p class="text-sm text-slate-600">Valor Total Estoque</p>
         <p class="text-2xl font-semibold mt-2">R$ <?php echo number_format($stats['total_value'], 2, ',', '.'); ?></p>
     </div>
-    <div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4">
+    <div class="card-surface rounded-xl p-4">
         <p class="text-sm text-slate-600">Categorias</p>
         <p class="text-3xl font-semibold mt-2"><?php echo count($stats['categories']); ?></p>
     </div>
@@ -64,12 +64,12 @@
     <form method="get" class="flex gap-2">
         <input type="hidden" name="action" value="inventory">
         <input type="text" name="search" placeholder="Buscar por nome, SKU ou categoria..." value="<?php echo htmlspecialchars($search); ?>" class="flex-1 rounded-lg border border-slate-200 px-4 py-2">
-        <button type="submit" class="px-4 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300">Buscar</button>
+        <button type="submit" class="btn-outline px-4 py-2 text-sm font-semibold transition">Buscar</button>
     </form>
 </div>
 
 <!-- Tabela de Produtos -->
-<div class="rounded-lg bg-white shadow-sm border border-slate-200 overflow-hidden">
+<div class="card-surface rounded-2xl overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full">
             <thead class="bg-slate-50 border-b border-slate-200">
@@ -127,13 +127,13 @@
                                         </svg>
                                     </a>
                                     <?php if (is_admin()): ?>
-                                        <a href="<?php echo base_url('index.php?action=inventory_edit&id=' . $item['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar">
+                                        <a href="<?php echo base_url('index.php?action=inventory_edit&id=' . $item['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar" data-confirm-link data-confirm-title="Editar item do estoque" data-confirm-message="Deseja editar este item?" data-confirm-text="Editar">
                                             <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <path d="M12 20h9"></path>
                                                 <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
                                             </svg>
                                         </a>
-                                        <a href="<?php echo base_url('index.php?action=inventory_delete&id=' . $item['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-red-50 p-1.5 text-red-700 hover:bg-red-100 md:p-2" aria-label="Excluir" title="Excluir" onclick="return confirm('Tem certeza?')">
+                                        <a href="<?php echo base_url('index.php?action=inventory_delete&id=' . $item['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-red-50 p-1.5 text-red-700 hover:bg-red-100 md:p-2" aria-label="Excluir" title="Excluir" data-confirm-link data-confirm-title="Excluir item do estoque" data-confirm-message="Tem certeza que deseja excluir este item?" data-confirm-text="Excluir" data-confirm-variant="danger">
                                             <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <path d="M3 6h18"></path>
                                                 <path d="M8 6V4h8v2"></path>
@@ -157,7 +157,7 @@
 <?php if (is_admin()): ?>
     <div id="inventory-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-inventory-modal-close></div>
-        <div class="relative w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
+        <div class="modal-panel relative w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
             <div class="flex items-start justify-between border-b border-slate-100 px-6 py-4">
                 <div>
                     <h2 class="text-xl font-semibold">Novo Produto</h2>
@@ -182,7 +182,28 @@
 
                 <div>
                     <label for="category" class="block text-sm font-medium mb-2">Categoria</label>
-                    <input type="text" name="category" id="category" value="<?php echo htmlspecialchars($item['category']); ?>" class="w-full rounded-lg border border-slate-200 px-4 py-2" placeholder="Ex: Notebooks" autocomplete="off">
+                    <?php
+                    $category = $item['category'];
+                    $categories = [];
+                    if (!empty($stats['categories'])) {
+                        foreach ($stats['categories'] as $row) {
+                            if (!empty($row['category'])) {
+                                $categories[] = $row['category'];
+                            }
+                        }
+                    }
+                    if ($category !== '' && !in_array($category, $categories, true)) {
+                        $categories[] = $category;
+                    }
+                    ?>
+                    <select name="category" id="category" class="w-full rounded-lg border border-slate-200 px-4 py-2" autocomplete="off">
+                        <option value="">Selecione</option>
+                        <?php foreach ($categories as $option): ?>
+                            <option value="<?php echo htmlspecialchars($option); ?>" <?php echo $category === $option ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($option); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
                 <div>
@@ -232,10 +253,10 @@
                 </div>
 
                 <div class="flex flex-wrap gap-3 justify-end pt-2">
-                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <button type="submit" class="btn-primary px-6 py-2 text-sm font-semibold transition">
                         Adicionar ao Estoque
                     </button>
-                    <button type="button" class="px-6 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300" data-inventory-modal-close>
+                    <button type="button" class="btn-outline px-6 py-2 text-sm font-semibold transition" data-inventory-modal-close>
                         Cancelar
                     </button>
                 </div>
@@ -291,5 +312,3 @@
         })();
     </script>
 <?php endif; ?><?php include __DIR__ . '/../partials/footer.php'; ?>
-
-

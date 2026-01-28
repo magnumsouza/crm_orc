@@ -14,7 +14,7 @@
 <?php endif; ?>
 
 <div class="grid grid-cols-3 gap-6 mb-6">
-    <div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4">
+    <div class="card-surface rounded-xl p-4">
         <p class="text-sm text-slate-600">Quantidade em Estoque</p>
         <?php
         $qty = (int)$item['quantity'];
@@ -26,13 +26,13 @@
         <p class="text-xs text-slate-500 mt-2">Mín: <?php echo $min; ?> | Máx: <?php echo $max; ?></p>
     </div>
 
-    <div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4">
+    <div class="card-surface rounded-xl p-4">
         <p class="text-sm text-slate-600">Preço de Venda</p>
         <p class="text-3xl font-semibold mt-2">R$ <?php echo number_format($item['price'], 2, ',', '.'); ?></p>
         <p class="text-xs text-slate-500 mt-2">Total em Estoque: R$ <?php echo number_format($item['quantity'] * $item['price'], 2, ',', '.'); ?></p>
     </div>
 
-    <div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4">
+    <div class="card-surface rounded-xl p-4">
         <p class="text-sm text-slate-600">Margem de Lucro/Un</p>
         <p class="text-3xl font-semibold mt-2 text-green-600">R$ <?php echo number_format($item['price'] - $item['cost'], 2, ',', '.'); ?></p>
         <p class="text-xs text-slate-500 mt-2"><?php echo $item['cost'] > 0 ? number_format((($item['price'] - $item['cost']) / $item['cost']) * 100, 1, ',', '.') : '0'; ?>%</p>
@@ -40,7 +40,7 @@
 </div>
 
 <div class="grid grid-cols-2 gap-6 mb-6">
-    <div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4">
+    <div class="card-surface rounded-xl p-4">
         <h3 class="font-semibold mb-4">Informações do Produto</h3>
         <dl class="space-y-3 text-sm">
             <div>
@@ -62,7 +62,7 @@
         </dl>
     </div>
 
-    <div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4">
+    <div class="card-surface rounded-xl p-4">
         <h3 class="font-semibold mb-4">Dados Complementares</h3>
         <dl class="space-y-3 text-sm">
             <div>
@@ -82,7 +82,7 @@
 </div>
 
 <?php if (!empty($item['description'])): ?>
-<div class="rounded-lg bg-white shadow-sm border border-slate-200 p-4 mb-6">
+<div class="card-surface rounded-xl p-4 mb-6">
     <h3 class="font-semibold mb-3">Descrição</h3>
     <p class="text-slate-700"><?php echo htmlspecialchars($item['description']); ?></p>
 </div>
@@ -90,11 +90,11 @@
 
 <div class="flex gap-3">
     <?php if (is_admin()): ?>
-        <a href="<?php echo base_url('index.php?action=inventory_edit&id=' . $item['id']); ?>" class="px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700">
+        <a href="<?php echo base_url('index.php?action=inventory_edit&id=' . $item['id']); ?>" class="btn-primary px-6 py-2 text-sm font-semibold transition" data-confirm-link data-confirm-title="Editar item do estoque" data-confirm-message="Deseja editar este item?" data-confirm-text="Editar">
             Editar
         </a>
     <?php endif; ?>
-    <a href="<?php echo base_url('index.php?action=inventory'); ?>" class="px-6 py-2 bg-slate-200 text-slate-900 rounded-lg hover:bg-slate-300">
+    <a href="<?php echo base_url('index.php?action=inventory'); ?>" class="btn-outline px-6 py-2 text-sm font-semibold transition">
         Voltar
     </a>
 </div>

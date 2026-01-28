@@ -10,7 +10,7 @@
     </div>
 <?php endif; ?>
 
-<form class="rounded-2xl bg-white p-6 shadow-sm border border-slate-200 space-y-4" method="post" action="<?php echo base_url('index.php?action=' . (empty($client['id']) ? 'clients_store' : 'clients_update')); ?>">
+<form class="card-surface rounded-2xl p-6 space-y-4" method="post" action="<?php echo base_url('index.php?action=' . (empty($client['id']) ? 'clients_store' : 'clients_update')); ?>">
     <?php if (!empty($client['id'])): ?>
         <input type="hidden" name="id" value="<?php echo $client['id']; ?>">
     <?php endif; ?>
@@ -37,8 +37,8 @@
         <textarea name="notes" rows="4" class="mt-2 w-full rounded-lg border border-slate-200 px-4 py-2"><?php echo htmlspecialchars($client['notes']); ?></textarea>
     </div>
     <div class="flex gap-3">
-        <button class="rounded-lg bg-brand-500 px-4 py-2 text-white font-medium hover:bg-brand-700">Salvar</button>
-        <a class="rounded-lg border border-slate-200 px-4 py-2" href="<?php echo base_url('index.php?action=clients'); ?>">Voltar</a>
+        <button class="btn-primary px-4 py-2 text-sm font-semibold transition">Salvar</button>
+        <a class="btn-outline px-4 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=clients'); ?>">Voltar</a>
     </div>
 </form>
 <?php include __DIR__ . '/../partials/footer.php'; ?>
