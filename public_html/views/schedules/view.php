@@ -11,8 +11,10 @@
         <p class="text-sm text-slate-500">Cliente, servico e itens utilizados.</p>
     </div>
     <div class="flex items-center gap-3">
-        <?php if (is_admin()): ?>
+        <?php if (can_edit()): ?>
             <a class="btn-outline px-3 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules_edit&id=' . $schedule['id']); ?>" data-confirm-link data-confirm-title="Editar agendamento" data-confirm-message="Deseja editar este agendamento?" data-confirm-text="Editar">Editar</a>
+        <?php endif; ?>
+        <?php if (is_admin()): ?>
             <a class="btn-danger px-3 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules_delete&id=' . $schedule['id']); ?>" data-confirm-link data-confirm-title="Cancelar agendamento" data-confirm-message="Tem certeza que deseja cancelar este agendamento?" data-confirm-text="Cancelar" data-confirm-variant="danger">Cancelar</a>
         <?php endif; ?>
         <a class="btn-outline px-3 py-2 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules'); ?>">Voltar</a>

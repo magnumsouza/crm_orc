@@ -4,7 +4,7 @@
         <h1 class="text-2xl font-semibold">Orçamentos</h1>
         <p class="text-sm text-slate-500">Acompanhe propostas enviadas e aprovadas.</p>
     </div>
-    <?php if (is_admin()): ?>
+    <?php if (can_edit()): ?>
         <button type="button" id="open-quote-modal" class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition">Novo Orcamento</button>
         <noscript>
             <a class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=quotes_create'); ?>">Novo Orcamento</a>
@@ -54,13 +54,15 @@
                                     <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
                             </a>
-                            <?php if (is_admin()): ?>
+                            <?php if (can_edit()): ?>
                                 <a href="<?php echo base_url('index.php?action=quotes_edit&id=' . $quote['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar" data-confirm-link data-confirm-title="Editar orçamento" data-confirm-message="Deseja editar este orçamento?" data-confirm-text="Editar">
                                     <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M12 20h9"></path>
                                         <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
                                     </svg>
                                 </a>
+                            <?php endif; ?>
+                            <?php if (is_admin()): ?>
                                 <a href="<?php echo base_url('index.php?action=quotes_delete&id=' . $quote['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-red-50 p-1.5 text-red-700 hover:bg-red-100 md:p-2" aria-label="Excluir" title="Excluir" data-confirm-link data-confirm-title="Excluir orçamento" data-confirm-message="Tem certeza que deseja excluir este orçamento?" data-confirm-text="Excluir" data-confirm-variant="danger">
                                     <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M3 6h18"></path>
@@ -84,7 +86,7 @@
     </table>
 </div>
 
-<?php if (is_admin()): ?>
+<?php if (can_edit()): ?>
     <div id="quote-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-quote-modal-close></div>
         <div class="modal-panel relative w-full max-w-2xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">

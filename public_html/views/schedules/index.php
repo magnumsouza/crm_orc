@@ -10,7 +10,7 @@
         <h2 class="text-xl font-semibold">Agendamentos</h2>
         <p class="text-sm text-slate-500">Gerencie servicos agendados e status em tempo real.</p>
     </div>
-    <?php if (is_admin()): ?>
+    <?php if (can_edit()): ?>
         <button type="button" id="open-schedule-modal" class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition">Novo Agendamento</button>
         <noscript>
             <a class="btn-primary inline-flex items-center px-5 py-2.5 text-sm font-semibold transition" href="<?php echo base_url('index.php?action=schedules_create'); ?>">Novo Agendamento</a>
@@ -73,7 +73,7 @@
                             ?>
                         </td>
                         <td class="py-3">
-                            <?php if (is_admin()): ?>
+                            <?php if (can_edit()): ?>
                                 <form method="post" action="<?php echo base_url('index.php?action=schedules_update_status'); ?>">
                                     <input type="hidden" name="id" value="<?php echo $schedule['id']; ?>">
                                     <select name="status" class="rounded-lg border border-slate-200 px-2 py-1 text-xs">
@@ -97,7 +97,7 @@
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
                                 </a>
-                                <?php if (is_admin()): ?>
+                                <?php if (can_edit()): ?>
                                     <a href="<?php echo base_url('index.php?action=schedules_edit&id=' . $schedule['id']); ?>" class="inline-flex items-center justify-center rounded-md bg-amber-50 p-1.5 text-amber-700 hover:bg-amber-100 md:p-2" aria-label="Editar" title="Editar" data-confirm-link data-confirm-title="Editar agendamento" data-confirm-message="Deseja editar este agendamento?" data-confirm-text="Editar">
                                         <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path d="M12 20h9"></path>
@@ -139,7 +139,7 @@
 
 <?php include __DIR__ . '/../partials/footer.php'; ?>
 
-<?php if (is_admin()): ?>
+<?php if (can_edit()): ?>
     <div id="schedule-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-schedule-modal-close></div>
         <div class="modal-panel relative w-full max-w-3xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
@@ -486,3 +486,4 @@
         })();
     </script>
 <?php endif; ?>
+

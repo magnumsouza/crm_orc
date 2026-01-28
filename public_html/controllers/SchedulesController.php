@@ -27,7 +27,7 @@ function schedules_index(): void
     $inventory = [];
     $settings = [];
     $approved_quotes = [];
-    if (is_admin()) {
+    if (can_edit()) {
         $clients = client_all(db());
         $inventory = inventory_all(db());
         $settings = schedule_get_settings(db());

@@ -66,6 +66,22 @@ function is_admin(): bool
     return current_user_role() === 'admin';
 }
 
+function is_editor(): bool
+{
+    return current_user_role() === 'editor';
+}
+
+function can_edit(): bool
+{
+    $role = current_user_role();
+    return $role === 'admin' || $role === 'editor';
+}
+
+function can_delete(): bool
+{
+    return is_admin();
+}
+
 function require_login(): void
 {
     if (!is_logged_in()) {

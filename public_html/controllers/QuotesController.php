@@ -10,7 +10,7 @@ function quotes_index(): void
     $clients = [];
     $inventory_items = [];
     $services = [];
-    if (is_admin()) {
+    if (can_edit()) {
         $clients = client_all(db());
         $inventory_items = inventory_all(db());
         $services = service_all(db(), true);

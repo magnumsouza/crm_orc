@@ -115,7 +115,7 @@
 
 
 
-<?php if (is_admin()): ?>
+<?php if (can_edit()): ?>
     <div id="quote-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-quote-modal-close></div>
         <div class="modal-panel relative w-full max-w-2xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">

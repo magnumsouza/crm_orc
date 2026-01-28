@@ -65,7 +65,7 @@
             <p class="text-xs uppercase text-slate-500">Status atual</p>
             <p class="mt-2 text-lg font-semibold"><?php echo htmlspecialchars($quote['status']); ?></p>
         </div>
-        <?php if (is_admin()): ?>
+        <?php if (can_edit()): ?>
             <form method="post" action="<?php echo base_url('index.php?action=quotes_update_status'); ?>" class="space-y-3">
                 <input type="hidden" name="id" value="<?php echo $quote['id']; ?>">
                 <select name="status" class="w-full rounded-lg border border-slate-200 px-4 py-2">

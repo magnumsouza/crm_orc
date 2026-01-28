@@ -31,7 +31,7 @@ if ($action === 'logout') {
 
 require_login();
 
-$restricted_actions = [
+$mutating_actions = [
     'clients_create',
     'clients_store',
     'clients_edit',
@@ -62,8 +62,21 @@ $restricted_actions = [
     'invoices_store',
 ];
 
-if (!is_admin() && in_array($action, $restricted_actions, true)) {
-    flash_set('error', 'Acesso restrito: apenas administradores podem alterar dados.');
+$delete_actions = [
+    'clients_delete',
+    'quotes_delete',
+    'inventory_delete',
+    'services_delete',
+    'schedules_delete',
+];
+
+if (!can_edit() && in_array($action, $mutating_actions, true)) {
+    flash_set('error', 'Acesso restrito: apenas administradores ou editores podem alterar dados.');
+    redirect('index.php');
+}
+
+if (!can_delete() && in_array($action, $delete_actions, true)) {
+    flash_set('error', 'Acesso restrito: apenas administradores podem excluir dados.');
     redirect('index.php');
 }
 

@@ -89,7 +89,7 @@
 <?php endif; ?>
 
 <div class="flex gap-3">
-    <?php if (is_admin()): ?>
+    <?php if (can_edit()): ?>
         <a href="<?php echo base_url('index.php?action=inventory_edit&id=' . $item['id']); ?>" class="btn-primary px-6 py-2 text-sm font-semibold transition" data-confirm-link data-confirm-title="Editar item do estoque" data-confirm-message="Deseja editar este item?" data-confirm-text="Editar">
             Editar
         </a>

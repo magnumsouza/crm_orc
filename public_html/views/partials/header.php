@@ -178,7 +178,10 @@
         </header>
         <div id="mobileMenuOverlay" class="fixed inset-0 z-20 hidden bg-slate-900/30 md:hidden"></div>
         <div id="mobileMenu" class="fixed inset-y-0 left-0 z-30 hidden w-72 translate-x-[-100%] border-r border-slate-200 bg-white/90 px-4 py-6 shadow-lg backdrop-blur transition-transform duration-200 md:hidden dark:border-slate-800/70 dark:bg-slate-900/70">
-            <?php $is_admin = is_admin(); ?>
+            <?php
+            $is_admin = is_admin();
+            $can_edit = can_edit();
+            ?>
             <div class="mb-6 flex items-center justify-between">
                 <div class="text-sm text-slate-600 dark:text-slate-300"><?php echo htmlspecialchars($_SESSION['user_name'] ?? ''); ?></div>
                 <div class="flex items-center gap-3">
@@ -208,7 +211,7 @@
                     <span class="h-2 w-2 rounded-full bg-emerald-400/80"></span>
                     Orçamentos
                 </a>
-                <?php if ($is_admin): ?>
+                <?php if ($can_edit): ?>
                     <a class="group flex items-center gap-3 rounded-xl px-4 py-2.5 font-medium text-slate-700 transition hover:bg-slate-900 hover:text-white dark:text-slate-200 dark:hover:bg-slate-100 dark:hover:text-slate-900" href="<?php echo base_url('index.php?action=quotes_create'); ?>">
                         <span class="h-2 w-2 rounded-full bg-emerald-400/80"></span>
                         Novo Orcamento
