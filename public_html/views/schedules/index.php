@@ -104,6 +104,24 @@
                                             <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
                                         </svg>
                                     </a>
+                                    <?php if ($schedule['status'] === 'Concluido'): ?>
+                                        <button type="button"
+                                            class="inline-flex items-center justify-center rounded-md bg-emerald-50 p-1.5 text-emerald-700 hover:bg-emerald-100 md:p-2"
+                                            data-invoice-open
+                                            data-schedule-id="<?php echo $schedule['id']; ?>"
+                                            data-client="<?php echo htmlspecialchars($schedule['client_name']); ?>"
+                                            data-date="<?php echo date('d/m/Y', strtotime($schedule['scheduled_date'])); ?>"
+                                            data-time="<?php echo substr($schedule['scheduled_time'], 0, 5); ?>"
+                                            aria-label="Emitir nota fiscal"
+                                            title="Emitir nota fiscal">
+                                            <svg class="h-3 w-3 md:h-4 md:w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M7 3h10l4 4v14H7z"></path>
+                                                <path d="M7 7h10"></path>
+                                                <path d="M7 11h10"></path>
+                                                <path d="M7 15h6"></path>
+                                            </svg>
+                                        </button>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </div>
                         </td>
@@ -183,67 +201,6 @@
                     <textarea class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="notes" rows="3"></textarea>
                 </div>
 
-                <div class="card-surface rounded-2xl p-5">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h3 class="text-sm font-semibold text-slate-800">Nota Fiscal</h3>
-                            <p class="text-xs text-slate-500">Selecione o tipo e o modo de preenchimento.</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 grid gap-4 md:grid-cols-2">
-                        <div>
-                            <label class="text-xs uppercase tracking-wide text-slate-500">Tipo</label>
-                            <select name="invoice_type" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" data-invoice-type>
-                                <option value="">Nao emitir</option>
-                                <option value="NFE">NFe</option>
-                                <option value="NFSE">NFS-e</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-xs uppercase tracking-wide text-slate-500">Modo</label>
-                            <select name="invoice_mode" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" data-invoice-mode>
-                                <option value="cadastro">Cliente/Produtos cadastrados</option>
-                                <option value="avulsa">Nota avulsa (manual)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 space-y-4" data-invoice-avulsa hidden>
-                        <div class="grid gap-4 md:grid-cols-2">
-                            <div>
-                                <label class="text-xs uppercase tracking-wide text-slate-500">Cliente (manual)</label>
-                                <input name="invoice_client_name" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="Nome/Razao social">
-                            </div>
-                            <div>
-                                <label class="text-xs uppercase tracking-wide text-slate-500">CPF/CNPJ</label>
-                                <input name="invoice_client_document" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="Documento">
-                            </div>
-                            <div>
-                                <label class="text-xs uppercase tracking-wide text-slate-500">Email</label>
-                                <input name="invoice_client_email" type="email" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="email@exemplo.com">
-                            </div>
-                            <div>
-                                <label class="text-xs uppercase tracking-wide text-slate-500">Telefone</label>
-                                <input name="invoice_client_phone" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="(00) 00000-0000">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="text-xs uppercase tracking-wide text-slate-500">Endereco</label>
-                            <textarea name="invoice_client_address" rows="2" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="Endereco completo"></textarea>
-                        </div>
-
-                        <div class="card-surface rounded-2xl p-4">
-                            <div class="flex items-center justify-between">
-                                <h4 class="text-sm font-semibold text-slate-800">Itens avulsos</h4>
-                                <button type="button" class="btn-outline px-3 py-2 text-xs font-semibold transition" data-add-invoice-item>Adicionar item</button>
-                            </div>
-                            <div class="mt-4 space-y-3" data-invoice-items>
-                                <p class="text-sm text-slate-500" data-empty-invoice>Sem itens adicionados.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="flex flex-wrap gap-3 justify-end">
                     <button class="btn-primary px-4 py-2 text-sm font-semibold transition">Agendar</button>
                     <button type="button" class="btn-outline px-4 py-2 text-sm font-semibold transition" data-schedule-modal-close>Cancelar</button>
@@ -252,8 +209,83 @@
         </div>
     </div>
 
+    <div id="invoice-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-invoice-modal-close></div>
+        <div class="modal-panel relative w-full max-w-3xl mx-4 max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
+            <div class="flex items-start justify-between border-b border-slate-100 px-6 py-4">
+                <div>
+                    <h2 class="text-xl font-semibold">Emitir Nota Fiscal</h2>
+                    <p class="text-sm text-slate-500" id="invoice-schedule-info">Preencha os dados da nota.</p>
+                </div>
+                <button type="button" class="text-slate-500 hover:text-slate-700" data-invoice-modal-close>Fechar</button>
+            </div>
+
+            <form class="space-y-6 px-6 py-6" method="post" action="<?php echo base_url('index.php?action=invoices_store'); ?>">
+                <input type="hidden" name="schedule_id" id="invoice-schedule-id" value="">
+
+                <div class="grid gap-4 md:grid-cols-2">
+                    <div>
+                        <label class="text-xs uppercase tracking-wide text-slate-500">Tipo</label>
+                        <select name="invoice_type" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" data-invoice-type required>
+                            <option value="">Selecione</option>
+                            <option value="NFE">NFe</option>
+                            <option value="NFSE">NFS-e</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs uppercase tracking-wide text-slate-500">Modo</label>
+                        <select name="invoice_mode" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" data-invoice-mode>
+                            <option value="cadastro">Cliente/Itens do agendamento</option>
+                            <option value="avulsa">Nota avulsa (manual)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-4 space-y-4" data-invoice-avulsa hidden>
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="text-xs uppercase tracking-wide text-slate-500">Cliente (manual)</label>
+                            <input name="invoice_client_name" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="Nome/Razao social">
+                        </div>
+                        <div>
+                            <label class="text-xs uppercase tracking-wide text-slate-500">CPF/CNPJ</label>
+                            <input name="invoice_client_document" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="Documento">
+                        </div>
+                        <div>
+                            <label class="text-xs uppercase tracking-wide text-slate-500">Email</label>
+                            <input name="invoice_client_email" type="email" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="email@exemplo.com">
+                        </div>
+                        <div>
+                            <label class="text-xs uppercase tracking-wide text-slate-500">Telefone</label>
+                            <input name="invoice_client_phone" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="(00) 00000-0000">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-xs uppercase tracking-wide text-slate-500">Endereco</label>
+                        <textarea name="invoice_client_address" rows="2" class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" placeholder="Endereco completo"></textarea>
+                    </div>
+
+                    <div class="card-surface rounded-2xl p-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-sm font-semibold text-slate-800">Itens avulsos</h4>
+                            <button type="button" class="btn-outline px-3 py-2 text-xs font-semibold transition" data-add-invoice-item>Adicionar item</button>
+                        </div>
+                        <div class="mt-4 space-y-3" data-invoice-items>
+                            <p class="text-sm text-slate-500" data-empty-invoice>Sem itens adicionados.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-3 justify-end">
+                    <button class="btn-primary px-4 py-2 text-sm font-semibold transition">Emitir Nota</button>
+                    <button type="button" class="btn-outline px-4 py-2 text-sm font-semibold transition" data-invoice-modal-close>Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <template id="scheduleItemTemplate">
-        <div class="grid gap-3 md:grid-cols-[1fr_120px_40px] items-end" data-item-row>
+        <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_80px_40px] items-end" data-item-row>
             <div>
                 <label class="text-xs font-medium text-slate-600">Item</label>
                 <select class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="items[][inventory_id]" data-item-select required>
@@ -270,12 +302,22 @@
                 <label class="text-xs font-medium text-slate-600">Quantidade</label>
                 <input class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" type="number" min="1" name="items[][quantity]" value="1" required>
             </div>
-            <button class="btn-danger px-3 py-1 text-xs font-semibold transition" type="button" data-remove-item>Remover</button>
+            <div class="flex items-end justify-center">
+                <button class="inline-flex h-9 w-9 items-center justify-center rounded-md bg-red-50 text-red-700 transition hover:bg-red-100" type="button" data-remove-item aria-label="Remover item">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18"></path>
+                        <path d="M8 6V4h8v2"></path>
+                        <path d="M19 6l-1 14H6L5 6"></path>
+                        <path d="M10 11v6"></path>
+                        <path d="M14 11v6"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </template>
 
     <template id="invoiceItemTemplate">
-        <div class="grid gap-3 md:grid-cols-[1fr_120px_140px_40px] items-end" data-invoice-row>
+        <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_80px_120px_40px] items-end" data-invoice-row>
             <div>
                 <label class="text-xs font-medium text-slate-600">Descricao</label>
                 <input class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="invoice_items[][description]" required>
@@ -288,7 +330,17 @@
                 <label class="text-xs font-medium text-slate-600">Valor unitario</label>
                 <input class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" type="number" step="0.01" min="0" name="invoice_items[][unit_price]" value="0">
             </div>
-            <button class="btn-danger px-3 py-1 text-xs font-semibold transition" type="button" data-remove-invoice>Remover</button>
+            <div class="flex items-end justify-center">
+                <button class="inline-flex h-9 w-9 items-center justify-center rounded-md bg-red-50 text-red-700 transition hover:bg-red-100" type="button" data-remove-invoice aria-label="Remover item">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18"></path>
+                        <path d="M8 6V4h8v2"></path>
+                        <path d="M19 6l-1 14H6L5 6"></path>
+                        <path d="M10 11v6"></path>
+                        <path d="M14 11v6"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </template>
 
@@ -298,13 +350,6 @@
             const modal = document.getElementById('schedule-modal');
             const openBtn = document.getElementById('open-schedule-modal');
             const closeButtons = modal ? modal.querySelectorAll('[data-schedule-modal-close]') : [];
-            const invoiceMode = modal ? modal.querySelector('[data-invoice-mode]') : null;
-            const invoiceType = modal ? modal.querySelector('[data-invoice-type]') : null;
-            const avulsaBox = modal ? modal.querySelector('[data-invoice-avulsa]') : null;
-            const addInvoiceItem = modal ? modal.querySelector('[data-add-invoice-item]') : null;
-            const invoiceItems = modal ? modal.querySelector('[data-invoice-items]') : null;
-            const invoiceTemplate = document.getElementById('invoiceItemTemplate');
-            const emptyInvoice = modal ? modal.querySelector('[data-empty-invoice]') : null;
 
             if (!modal || !openBtn) {
                 return;
@@ -314,7 +359,6 @@
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
                 modal.querySelector('form')?.reset();
-                if (avulsaBox) avulsaBox.hidden = true;
             };
 
             const closeModal = () => {
@@ -327,6 +371,60 @@
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape') {
                     closeModal();
+                }
+            });
+
+        })();
+
+        (() => {
+            const invoiceModal = document.getElementById('invoice-modal');
+            const invoiceButtons = document.querySelectorAll('[data-invoice-open]');
+            const closeButtons = invoiceModal ? invoiceModal.querySelectorAll('[data-invoice-modal-close]') : [];
+            const invoiceMode = invoiceModal ? invoiceModal.querySelector('[data-invoice-mode]') : null;
+            const invoiceType = invoiceModal ? invoiceModal.querySelector('[data-invoice-type]') : null;
+            const avulsaBox = invoiceModal ? invoiceModal.querySelector('[data-invoice-avulsa]') : null;
+            const addInvoiceItem = invoiceModal ? invoiceModal.querySelector('[data-add-invoice-item]') : null;
+            const invoiceItems = invoiceModal ? invoiceModal.querySelector('[data-invoice-items]') : null;
+            const invoiceTemplate = document.getElementById('invoiceItemTemplate');
+            const emptyInvoice = invoiceModal ? invoiceModal.querySelector('[data-empty-invoice]') : null;
+            const scheduleIdInput = document.getElementById('invoice-schedule-id');
+            const scheduleInfo = document.getElementById('invoice-schedule-info');
+
+            if (!invoiceModal) {
+                return;
+            }
+
+            const openInvoice = (button) => {
+                const scheduleId = button.getAttribute('data-schedule-id');
+                const client = button.getAttribute('data-client');
+                const date = button.getAttribute('data-date');
+                const time = button.getAttribute('data-time');
+                if (scheduleIdInput) scheduleIdInput.value = scheduleId || '';
+                if (scheduleInfo) {
+                    scheduleInfo.textContent = `Cliente: ${client} • ${date} ${time}`;
+                }
+                invoiceModal.classList.remove('hidden');
+                invoiceModal.classList.add('flex');
+                invoiceModal.querySelector('form')?.reset();
+                if (avulsaBox) avulsaBox.hidden = true;
+                if (invoiceItems) {
+                    invoiceItems.querySelectorAll('[data-invoice-row]').forEach((row) => row.remove());
+                }
+                if (emptyInvoice) emptyInvoice.classList.remove('hidden');
+            };
+
+            const closeInvoice = () => {
+                invoiceModal.classList.add('hidden');
+                invoiceModal.classList.remove('flex');
+            };
+
+            invoiceButtons.forEach((btn) => {
+                btn.addEventListener('click', () => openInvoice(btn));
+            });
+            closeButtons.forEach((btn) => btn.addEventListener('click', closeInvoice));
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeInvoice();
                 }
             });
 

@@ -58,6 +58,7 @@ $restricted_actions = [
     'schedules_update',
     'schedules_delete',
     'schedules_update_status',
+    'invoices_store',
 ];
 
 if (!is_admin() && in_array($action, $restricted_actions, true)) {
@@ -182,6 +183,9 @@ switch ($action) {
         break;
     case 'invoices':
         invoices_index();
+        break;
+    case 'invoices_store':
+        invoices_store();
         break;
     case 'invoices_pdf':
         invoices_pdf();

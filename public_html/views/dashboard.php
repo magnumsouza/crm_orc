@@ -147,7 +147,7 @@
     </div>
 
     <template id="item-template">
-        <div class="item-row grid gap-3 md:grid-cols-[120px_minmax(0,1fr)_minmax(0,1fr)_110px_120px_44px] items-start">
+        <div class="item-row grid gap-3 md:grid-cols-[170px_minmax(0,4fr)_minmax(0,4fr)_64px_100px_40px] items-start">
             <div class="min-w-0">
                 <select class="item-type w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" required>
                     <option value="produto">Produto</option>
@@ -155,7 +155,7 @@
                 </select>
             </div>
             <div class="min-w-0 product-field">
-                <select class="product-select w-full rounded-lg border border-slate-200 px-4 py-2" required>
+                <select class="product-select w-full rounded-lg border border-slate-200 px-4 py-2">
                     <option value="">Selecione o produto</option>
                     <?php foreach ($inventory_items as $product): ?>
                         <option value="<?php echo $product['id']; ?>" data-price="<?php echo $product['price']; ?>">
@@ -176,13 +176,21 @@
                 <input type="text" class="service-desc w-full rounded-lg border border-slate-200 px-4 py-2" placeholder="Descricao do servico">
             </div>
             <div class="min-w-0">
-                <input type="number" min="1" value="1" class="qty-input w-full rounded-lg border border-slate-200 px-4 py-2" required>
+                <input type="number" min="1" value="1" class="qty-input w-full rounded-lg border border-slate-200 px-2 py-2 text-center" required>
             </div>
             <div class="min-w-0">
                 <input type="number" step="0.01" min="0" value="0.00" class="price-input w-full rounded-lg border border-slate-200 px-3 py-2 text-sm bg-slate-50" required readonly>
             </div>
             <div class="flex items-center justify-center">
-                <button type="button" class="remove-item btn-danger inline-flex w-full items-center justify-center px-3 py-1.5 text-xs font-semibold transition md:w-auto">Remover</button>
+                <button type="button" class="remove-item inline-flex h-9 w-9 items-center justify-center rounded-md bg-red-50 text-red-700 transition hover:bg-red-100" aria-label="Remover item">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18"></path>
+                        <path d="M8 6V4h8v2"></path>
+                        <path d="M19 6l-1 14H6L5 6"></path>
+                        <path d="M10 11v6"></path>
+                        <path d="M14 11v6"></path>
+                    </svg>
+                </button>
             </div>
         </div>
     </template>

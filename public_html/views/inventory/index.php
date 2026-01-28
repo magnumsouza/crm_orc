@@ -24,7 +24,7 @@
 <?php endif; ?>
 
 <!-- Cards de Estatísticas -->
-<div class="grid grid-cols-4 gap-4 mb-6">
+<div class="grid gap-4 mb-6 sm:grid-cols-2 lg:grid-cols-3">
     <div class="card-surface rounded-xl p-4">
         <p class="text-sm text-slate-600">Total de Produtos</p>
         <p class="text-3xl font-semibold mt-2"><?php echo $stats['total_items']; ?></p>
@@ -38,10 +38,6 @@
     <div class="card-surface rounded-xl p-4">
         <p class="text-sm text-slate-600">Valor Total Estoque</p>
         <p class="text-2xl font-semibold mt-2">R$ <?php echo number_format($stats['total_value'], 2, ',', '.'); ?></p>
-    </div>
-    <div class="card-surface rounded-xl p-4">
-        <p class="text-sm text-slate-600">Categorias</p>
-        <p class="text-3xl font-semibold mt-2"><?php echo count($stats['categories']); ?></p>
     </div>
 </div>
 
@@ -76,7 +72,6 @@
                 <tr>
                     <th class="px-6 py-3 text-left text-sm font-semibold text-slate-900">SKU</th>
                     <th class="px-6 py-3 text-left text-sm font-semibold text-slate-900">Produto</th>
-                    <th class="px-6 py-3 text-left text-sm font-semibold text-slate-900">Categoria</th>
                     <th class="px-6 py-3 text-left text-sm font-semibold text-slate-900">Quantidade</th>
                     <th class="px-6 py-3 text-left text-sm font-semibold text-slate-900">Preço</th>
                     <th class="px-6 py-3 text-left text-sm font-semibold text-slate-900">Lucro/Un</th>
@@ -86,7 +81,7 @@
             <tbody class="divide-y divide-slate-200">
                 <?php if (empty($items)): ?>
                     <tr>
-                        <td colspan="7" class="px-6 py-8 text-center text-slate-500">
+                        <td colspan="6" class="px-6 py-8 text-center text-slate-500">
                             Nenhum produto encontrado
                         </td>
                     </tr>
@@ -98,9 +93,6 @@
                             </td>
                             <td class="px-6 py-4 text-sm text-slate-900">
                                 <?php echo htmlspecialchars($item['name']); ?>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-slate-600">
-                                <?php echo htmlspecialchars($item['category']); ?>
                             </td>
                             <td class="px-6 py-4 text-sm">
                                 <?php
@@ -157,7 +149,7 @@
 <?php if (is_admin()): ?>
     <div id="inventory-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" data-inventory-modal-close></div>
-        <div class="modal-panel relative w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
+        <div class="modal-panel relative w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-xl border border-slate-200">
             <div class="flex items-start justify-between border-b border-slate-100 px-6 py-4">
                 <div>
                     <h2 class="text-xl font-semibold">Novo Produto</h2>
@@ -178,32 +170,6 @@
                         <label for="name" class="block text-sm font-medium mb-2">Nome do Produto *</label>
                         <input type="text" name="name" id="name" required value="<?php echo htmlspecialchars($item['name']); ?>" class="w-full rounded-lg border border-slate-200 px-4 py-2" autocomplete="off">
                     </div>
-                </div>
-
-                <div>
-                    <label for="category" class="block text-sm font-medium mb-2">Categoria</label>
-                    <?php
-                    $category = $item['category'];
-                    $categories = [];
-                    if (!empty($stats['categories'])) {
-                        foreach ($stats['categories'] as $row) {
-                            if (!empty($row['category'])) {
-                                $categories[] = $row['category'];
-                            }
-                        }
-                    }
-                    if ($category !== '' && !in_array($category, $categories, true)) {
-                        $categories[] = $category;
-                    }
-                    ?>
-                    <select name="category" id="category" class="w-full rounded-lg border border-slate-200 px-4 py-2" autocomplete="off">
-                        <option value="">Selecione</option>
-                        <?php foreach ($categories as $option): ?>
-                            <option value="<?php echo htmlspecialchars($option); ?>" <?php echo $category === $option ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($option); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
                 </div>
 
                 <div>

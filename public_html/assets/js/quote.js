@@ -27,19 +27,30 @@
     const toggleType = (row, type) => {
         const productField = row.querySelector('.product-field');
         const serviceField = row.querySelector('.service-field');
+        const productSelect = row.querySelector('.product-select');
+        const serviceSelect = row.querySelector('.service-select');
+        const serviceDesc = row.querySelector('.service-desc');
         const priceInput = row.querySelector('.price-input');
 
         if (type === 'servico') {
             productField?.classList.add('hidden');
             serviceField?.classList.remove('hidden');
+            if (productSelect) productSelect.required = false;
+            if (serviceSelect) serviceSelect.required = false;
+            if (serviceDesc) serviceDesc.required = true;
             if (priceInput) {
+                priceInput.required = true;
                 priceInput.readOnly = false;
                 priceInput.classList.remove('bg-slate-50');
             }
         } else {
             productField?.classList.remove('hidden');
             serviceField?.classList.add('hidden');
+            if (productSelect) productSelect.required = true;
+            if (serviceSelect) serviceSelect.required = false;
+            if (serviceDesc) serviceDesc.required = false;
             if (priceInput) {
+                priceInput.required = false;
                 priceInput.readOnly = true;
                 priceInput.classList.add('bg-slate-50');
             }

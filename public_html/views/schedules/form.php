@@ -63,7 +63,7 @@
         <div class="mt-4 space-y-3" data-items-container>
             <?php if (!empty($items)): ?>
                 <?php foreach ($items as $item): ?>
-                    <div class="grid gap-3 md:grid-cols-[1fr_120px_40px] items-end" data-item-row>
+                    <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_80px_40px] items-end" data-item-row>
                         <div>
                             <label class="text-xs font-medium text-slate-600">Item</label>
                             <select class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="items[][inventory_id]" data-item-select required>
@@ -80,7 +80,17 @@
                             <label class="text-xs font-medium text-slate-600">Quantidade</label>
                             <input class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" type="number" min="1" name="items[][quantity]" value="<?php echo (int)$item['quantity']; ?>" required>
                         </div>
-                        <button class="btn-danger px-3 py-1 text-xs font-semibold transition" type="button" data-remove-item>Remover</button>
+                        <div class="flex items-end justify-center">
+                            <button class="inline-flex h-9 w-9 items-center justify-center rounded-md bg-red-50 text-red-700 transition hover:bg-red-100" type="button" data-remove-item aria-label="Remover item">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M8 6V4h8v2"></path>
+                                    <path d="M19 6l-1 14H6L5 6"></path>
+                                    <path d="M10 11v6"></path>
+                                    <path d="M14 11v6"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -101,7 +111,7 @@
 </form>
 
 <template id="scheduleItemTemplate">
-    <div class="grid gap-3 md:grid-cols-[1fr_120px_40px] items-end" data-item-row>
+    <div class="grid gap-3 md:grid-cols-[minmax(0,1fr)_80px_40px] items-end" data-item-row>
         <div>
             <label class="text-xs font-medium text-slate-600">Item</label>
             <select class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" name="items[][inventory_id]" data-item-select required>
@@ -118,7 +128,17 @@
             <label class="text-xs font-medium text-slate-600">Quantidade</label>
             <input class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" type="number" min="1" name="items[][quantity]" value="1" required>
         </div>
-        <button class="btn-danger px-3 py-1 text-xs font-semibold transition" type="button" data-remove-item>Remover</button>
+        <div class="flex items-end justify-center">
+            <button class="inline-flex h-9 w-9 items-center justify-center rounded-md bg-red-50 text-red-700 transition hover:bg-red-100" type="button" data-remove-item aria-label="Remover item">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 6h18"></path>
+                    <path d="M8 6V4h8v2"></path>
+                    <path d="M19 6l-1 14H6L5 6"></path>
+                    <path d="M10 11v6"></path>
+                    <path d="M14 11v6"></path>
+                </svg>
+            </button>
+        </div>
     </div>
 </template>
 

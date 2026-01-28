@@ -34,32 +34,6 @@
         </div>
 
         <div>
-            <label for="category" class="block text-sm font-medium mb-2">Categoria</label>
-            <?php
-            $category = $item['category'] ?? '';
-            $categories = [];
-            if (!empty($stats['categories'])) {
-                foreach ($stats['categories'] as $row) {
-                    if (!empty($row['category'])) {
-                        $categories[] = $row['category'];
-                    }
-                }
-            }
-            if ($category !== '' && !in_array($category, $categories, true)) {
-                $categories[] = $category;
-            }
-            ?>
-            <select name="category" id="category" class="w-full rounded-lg border border-slate-200 px-4 py-2">
-                <option value="">Selecione</option>
-                <?php foreach ($categories as $option): ?>
-                    <option value="<?php echo htmlspecialchars($option); ?>" <?php echo $category === $option ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($option); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-
-        <div>
             <label for="description" class="block text-sm font-medium mb-2">Descrição</label>
             <textarea name="description" id="description" rows="3" class="w-full rounded-lg border border-slate-200 px-4 py-2"><?php echo htmlspecialchars($item['description'] ?? ''); ?></textarea>
         </div>
